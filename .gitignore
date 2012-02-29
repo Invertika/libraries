@@ -11,4 +11,5 @@ obj/
 # Misc files
 *.cache
 *.exe
+*.dll
 *.manifest
