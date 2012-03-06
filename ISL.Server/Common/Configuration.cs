@@ -13,7 +13,7 @@ namespace ISL.Server.Common
 
 		public const int DEFAULT_SERVER_PORT=9601;
 
-		const string DEFAULT_CONFIG_FILE="manaserv.xml";
+		public const string DEFAULT_CONFIG_FILE="manaserv.xml";
 
 		static XmlData xmlfile;
 		static List<XmlNode> nodes;
