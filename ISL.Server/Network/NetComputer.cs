@@ -31,7 +31,7 @@ namespace ISL.Server.Network
 			return true;
 		}
 
-		void disconnect(MessageOut msg)
+		public void disconnect(MessageOut msg)
 		{
 			if(isConnected())
 			{

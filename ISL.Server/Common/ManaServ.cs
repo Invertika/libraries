@@ -298,37 +298,6 @@ namespace ISL.Server.Common
 		public const int CREATE_TOO_MUCH_CHARACTERS=0x47;
 		public const int CREATE_INVALID_SLOT=0x48;
 
-
-		// Character attribute modification specific return value
-		enum AttribmodResponseCode
-		{
-			ATTRIBMOD_OK=ERRMSG_OK,
-			ATTRIBMOD_INVALID_ATTRIBUTE=0x40,
-			ATTRIBMOD_NO_POINTS_LEFT=0x41,
-			ATTRIBMOD_DENIED=0x42
-		}
-
-		// Object type enumeration
-		enum ThingType
-		{
-			// A simple item.
-			OBJECT_ITEM=0,
-			// An item that toggle map/quest actions (doors, switchs, ...)
-			// and can speak (map panels).
-			OBJECT_ACTOR=1,
-			// Non-Playable-Character is an actor capable of movement and maybe actions.
-			OBJECT_NPC=2,
-			// A monster (moving actor with AI. Should be able to toggle map/quest
-			// actions, too).
-			OBJECT_MONSTER=3,
-			// A normal being.
-			OBJECT_CHARACTER=4,
-			// A effect to be shown.
-			OBJECT_EFFECT=5,
-			// Server-only object.
-			OBJECT_OTHER=6
-		}
-
 		// Moving object flags
 		// Payload contains the current position.
 		public const int MOVING_POSITION=1;

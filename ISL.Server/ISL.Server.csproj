@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\AttribmodResponseCode.cs" />
     <Compile Include="Common\CommandLineOptions.cs" />
     <Compile Include="Common\Configuration.cs" />
     <Compile Include="Common\ManaServ.cs" />
