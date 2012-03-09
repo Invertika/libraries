@@ -8,7 +8,7 @@ namespace ISL.Server.Network
 {
 	public class MessageIn
 	{
-		BinaryReader reader=new BinaryReader(new MemoryStream());
+		BinaryReader reader;
 
 		byte[] mData;            /**< Packet data */
 		ushort mLength;       /**< Length of data in bytes */
@@ -28,6 +28,8 @@ namespace ISL.Server.Network
 			mData=data;
 			mLength=(ushort)data.Length;
 			mPos=0;
+
+			reader=new BinaryReader(new MemoryStream(data));
 
 			// Read the message ID
 			mId=(ushort)readInt16();

@@ -246,6 +246,7 @@ namespace ISL.Server.Common
 
 		public const int XXMSG_INVALID=0x7FFF;
 
+		//TODO Protocol in Enum um Casting der Ids zu erlauben
 
 		// Generic return values
 
