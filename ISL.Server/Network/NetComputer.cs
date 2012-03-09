@@ -59,8 +59,14 @@ namespace ISL.Server.Network
 
 			//gBandwidth->increaseClientOutput(this, msg.getLength());
 
-			//TODO Überprüfung ob Länge größer ushort dann Problem
 			NetworkStream stream=mPeer.GetStream();
+
+			//Länge senden
+			ushort lengthPackage=(ushort)msg.getLength();
+			byte[] lengthAsByteArray=BitConverter.GetBytes(lengthPackage);
+			stream.Write(lengthAsByteArray, 0, (int)lengthAsByteArray.Length); 
+
+			//TODO Überprüfung ob Länge größer ushort dann Problem
 			stream.Write(msg.getData(), 0, (int)msg.getLength()); 
 
 			//if(packet)

@@ -144,7 +144,6 @@ namespace ISL.Server.Network
 				//int readed=stream.Read(commandData, 0, commandData.Length);
 				//int readed=
 				byte[] commandData=commandData=stream.Read(commandLength);
-				Read(stream, commandData, 0, commandData.Length);
 				//stream.Read(commandData, 0, commandData.Length);
 
 
