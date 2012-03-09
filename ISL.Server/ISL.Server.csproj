@@ -52,6 +52,7 @@
     <Compile Include="Network\MessageIn.cs" />
     <Compile Include="Network\MessageOut.cs" />
     <Compile Include="Network\NetComputer.cs" />
+    <Compile Include="Network\NetworkStreamExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\Logger.cs" />
     <Compile Include="Enums\ExitValue.cs" />

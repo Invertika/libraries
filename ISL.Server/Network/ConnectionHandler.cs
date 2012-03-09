@@ -105,6 +105,18 @@ namespace ISL.Server.Network
 			//enet_host_flush(host);
 		}
 
+		//TODO Extension oder Abgeleitete Klasse
+		static void Read(NetworkStream stream, byte[] buffer, int offset, int size)
+		{
+			while(size>0)
+			{
+				int read=stream.Read(buffer, offset, size);
+				if(read==0) throw new Exception();
+				size-=read;
+				offset+=read;
+			}
+		}
+
 		private void HandleClient(object td)
 		{
 			NetComputer comp=(NetComputer)td;
@@ -115,7 +127,7 @@ namespace ISL.Server.Network
 
 			String data=null;
 			//Byte[] bytes=new Byte[256];
-			Byte[] length=new Byte[1];
+			Byte[] length=new Byte[2];
 			int i;
 
 			// Get a stream object for reading and writing
@@ -125,12 +137,18 @@ namespace ISL.Server.Network
 			//while((i=stream.Read(bytes, 0, bytes.Length))!=0)
 			while((i=stream.Read(length, 0, length.Length))!=0)
 			{
-				ushort commandLength=(ushort)length[0];
+				ushort commandLength=(ushort)BitConverter.ToUInt16(length, 0);
 
 				//Empfange Kommando
-				Byte[] commandData=new Byte[commandLength];
-				stream.Read(commandData, 0, commandData.Length);
+				//Byte[] commandData=new Byte[commandLength];
+				//int readed=stream.Read(commandData, 0, commandData.Length);
+				//int readed=
+				byte[] commandData=commandData=stream.Read(commandLength);
+				Read(stream, commandData, 0, commandData.Length);
+				//stream.Read(commandData, 0, commandData.Length);
 
+
+				//TODO Wartemn bis Menge wirklich komplett
 				//Packe Kommando in MessageIn
 				MessageIn msg=new MessageIn(commandData);
 
