@@ -57,6 +57,7 @@
     <Compile Include="Utilities\Logger.cs" />
     <Compile Include="Enums\ExitValue.cs" />
     <Compile Include="Utilities\Point.cs" />
+    <Compile Include="Utilities\Rectangle.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

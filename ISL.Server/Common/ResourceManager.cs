@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CSCL;
 
 namespace ISL.Server.Common
 {
@@ -23,26 +24,10 @@ namespace ISL.Server.Common
 			//PHYSFS_addToSearchPath(serverDataPath.c_str(), 1);
 		}
 
-		/**
-		 * This function tries to check if a file exists based on the existence of
-		 * stats about it. Because simply trying to open it and check for failure is a
-		 * bad thing, as you don't know if you weren't able to open it because it
-		 * doesn't exist or because you don't have the right to.
-		 */
-		static bool fileExists(string filename)
+		public static bool exists(string path)//, bool lookInSearchPath)
 		{
-			//struct stat buffer;
-			//// When stat is succesful, the file exists
-			//return stat(filename.c_str(), &buffer) == 0;
-
-			return true; //ssk
-		}
-
-		static bool exists(string path, bool lookInSearchPath)
-		{
-			//if (!lookInSearchPath)
-			//    return fileExists(path);
-
+			//if (!lookInSearchPath) return FileSystem.ExistsFile(path);
+			return FileSystem.ExistsFile(path);
 			//return PHYSFS_exists(path.c_str());
 
 			return true; //ssk

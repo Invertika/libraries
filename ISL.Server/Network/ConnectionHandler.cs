@@ -135,7 +135,7 @@ namespace ISL.Server.Network
 
 			//// Loop to receive all the data sent by the client.
 			//while((i=stream.Read(bytes, 0, bytes.Length))!=0)
-			while((i=stream.Read(length, 0, length.Length))!=0)
+			while((i=stream.Read(length, 0, length.Length))!=0) //TODO Auf ReadSecure umbiegen
 			{
 				ushort commandLength=(ushort)BitConverter.ToUInt16(length, 0);
 
