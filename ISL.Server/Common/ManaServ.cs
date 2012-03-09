@@ -10,6 +10,8 @@ namespace ISL.Server.Common
 		public const int PROTOCOL_VERSION=1;
 		public const int SUPPORTED_DB_VERSION=19;
 
+		public const int WORLD_TICK_MS=100;
+
 		/**
 		 * Enumerated type for communicated messages:
 		 *
