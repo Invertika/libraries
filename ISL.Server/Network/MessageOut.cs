@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using ISL.Server.Common;
 
 namespace ISL.Server.Network
 {
@@ -17,7 +18,7 @@ namespace ISL.Server.Network
 			writer=new BinaryWriter(data);
 		}
 
-		public MessageOut(int id)
+		public MessageOut(Protocol id)
 		{
 			data=new MemoryStream();
 			writer=new BinaryWriter(data);

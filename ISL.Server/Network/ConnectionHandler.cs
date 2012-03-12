@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.Threading;
 using ISL.Server.Utilities;
+using ISL.Server.Common;
 
 namespace ISL.Server.Network
 {
@@ -151,7 +152,7 @@ namespace ISL.Server.Network
 				//Packe Kommando in MessageIn
 				MessageIn msg=new MessageIn(commandData);
 
-				Logger.Add(LogLevel.Debug, "Received message {0} from {1}", msg, comp);
+				Logger.Add(LogLevel.Debug, "Received message {0} from {1}", (Protocol)msg.getId(), comp);
 
 				processMessage(comp, msg);
 			}

@@ -43,6 +43,7 @@
     <Compile Include="Common\CommandLineOptions.cs" />
     <Compile Include="Common\Configuration.cs" />
     <Compile Include="Common\ManaServ.cs" />
+    <Compile Include="Common\Protocol.cs" />
     <Compile Include="Common\ResourceManager.cs" />
     <Compile Include="Common\SplittedPath.cs" />
     <Compile Include="Common\StackableType.cs" />

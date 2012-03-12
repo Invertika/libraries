@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using ISL.Server.Common;
 
 namespace ISL.Server.Network
 {
@@ -12,7 +13,7 @@ namespace ISL.Server.Network
 
 		byte[] mData;            /**< Packet data */
 		ushort mLength;       /**< Length of data in bytes */
-		ushort mId;           /**< The message ID. */
+		Protocol mId;           /**< The message ID. */
 
 		/**
 		 * Actual position in the packet. From 0 to packet->length. A value
@@ -32,15 +33,15 @@ namespace ISL.Server.Network
 			reader=new BinaryReader(new MemoryStream(data));
 
 			// Read the message ID
-			mId=(ushort)readInt16();
+			mId=(Protocol)readInt16();
 		}
 
 		/**
  * Returns the message ID.
  */
-		public int getId()
+		public Protocol getId()
 		{
-			return (int)mId;
+			return mId;
 		}
 
 		public byte readInt8()
