@@ -60,6 +60,12 @@
     <Compile Include="Utilities\Point.cs" />
     <Compile Include="Utilities\Rectangle.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\Development\cscl.googlecode.com\CSCL\CSCL.csproj">
+      <Project>{0E720343-5366-4C3A-BC59-7B7FD2C311B5}</Project>
+      <Name>CSCL %28CSCL\CSCL%29</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -68,10 +74,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\cscl.googlecode.com\CSCL\CSCL.csproj">
-      <Project>{0E720343-5366-4C3A-BC59-7B7FD2C311B5}</Project>
-      <Name>CSCL %28CSCL\CSCL%29</Name>
-    </ProjectReference>
-  </ItemGroup>
 </Project>

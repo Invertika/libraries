@@ -26,8 +26,8 @@ using CSCL.Graphic;
 using CSCL.FileFormats.TMX;
 using System.Drawing;
 using CSCL.Games.Manasource;
-using Invertika.Classes;
 using CSCL;
+using ISL.Classes;
 
 namespace ISL
 {

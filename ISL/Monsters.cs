@@ -23,7 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using CSCL.FileFormats.TMX;
-using Invertika.Classes;
+using ISL.Classes;
 
 namespace ISL
 {
