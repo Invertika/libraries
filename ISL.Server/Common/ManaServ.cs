@@ -12,6 +12,8 @@ namespace ISL.Server.Common
 
 		public const int WORLD_TICK_MS=100;
 
+		public const int MAGIC_TOKEN_LENGTH=32; //TODO muss auf die Länge von Varios.GetUniqueID angepasst werden
+
 		// Generic return values
 
 		public const int ERRMSG_OK=0;                      // everything is fine
@@ -27,11 +29,9 @@ namespace ISL.Server.Common
 		public const int ERRMSG_LIMIT_REACHED=10;               // limit reached
 		public const int ERRMSG_ADMINISTRATIVE_LOGOFF=11;        // kicked by server administrator
 
-
 		// used in AGMSG_REGISTER_RESPONSE to show state of item db
 		public const int DATA_VERSION_OK=0x00;
 		public const int DATA_VERSION_OUTDATED=0x01;
-
 
 		// used in AGMSG_REGISTER_RESPNSE to show if password was accepted
 		public const int PASSWORD_OK=0x00;

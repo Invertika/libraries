@@ -31,7 +31,7 @@ namespace ISL.Server.Network
 			mPos=0;
 
 			reader=new BinaryReader(new MemoryStream(data));
-
+			
 			// Read the message ID
 			mId=(Protocol)readInt16();
 		}
@@ -54,6 +54,11 @@ namespace ISL.Server.Network
 			return reader.ReadInt16();
 		}
 
+		public int readInt32()
+		{
+			return reader.ReadInt32();
+		}
+
 		public string readString()
 		{
 			return reader.ReadString();
@@ -62,6 +67,11 @@ namespace ISL.Server.Network
 		public override string ToString()
 		{
 			return mId.ToString();
+		}
+
+		public int getUnreadLength() 
+		{
+			return (int)(reader.BaseStream.Length-reader.BaseStream.Position);
 		}
 	}
 }
