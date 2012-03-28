@@ -85,6 +85,11 @@ namespace ISL.Server.Network
 			return reader.ReadInt32();
 		}
 
+		public double readDouble()
+		{
+			return reader.ReadDouble();
+		}
+
 		public string readString()
 		{
 			return reader.ReadString();
