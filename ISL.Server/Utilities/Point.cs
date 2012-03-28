@@ -44,8 +44,8 @@ namespace ISL.Server.Utilities
 		//    x(X), y(Y)
 		//{}
 
-		//int x; /**< x coordinate */
-		//int y; /**< y coordinate */
+		public int x; /**< x coordinate */
+		public int y; /**< y coordinate */
 
 		///**
 		// * Check whether the given point is within range of this point.

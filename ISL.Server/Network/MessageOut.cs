@@ -67,6 +67,11 @@ namespace ISL.Server.Network
 			writer.Write((Int32)value);
 		}
 
+		public void writeDouble(double value)
+		{
+			writer.Write(value);
+		}
+
 		public void writeString(string value)
 		{
 			writer.Write(value);

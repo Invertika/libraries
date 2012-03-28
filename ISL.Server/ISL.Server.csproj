@@ -39,9 +39,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Account\Account.cs" />
+    <Compile Include="Account\AttributeValue.cs" />
+    <Compile Include="Account\Character.cs" />
     <Compile Include="Common\AttribmodResponseCode.cs" />
     <Compile Include="Common\CommandLineOptions.cs" />
     <Compile Include="Common\Configuration.cs" />
+    <Compile Include="Common\EquipmentItem.cs" />
     <Compile Include="Common\ManaServ.cs" />
     <Compile Include="Common\Protocol.cs" />
     <Compile Include="Common\ResourceManager.cs" />
@@ -49,6 +53,7 @@
     <Compile Include="Common\StackableType.cs" />
     <Compile Include="Common\Sync.cs" />
     <Compile Include="Common\ThingType.cs" />
+    <Compile Include="Game\Special.cs" />
     <Compile Include="Network\BandwidthMonitor.cs" />
     <Compile Include="Network\ConnectionHandler.cs" />
     <Compile Include="Network\MessageIn.cs" />
@@ -56,6 +61,7 @@
     <Compile Include="Network\NetComputer.cs" />
     <Compile Include="Network\NetworkStreamExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serialize\CharacterData.cs" />
     <Compile Include="Utilities\Logger.cs" />
     <Compile Include="Enums\ExitValue.cs" />
     <Compile Include="Utilities\Point.cs" />
