@@ -178,14 +178,14 @@ namespace ISL.Server.Network
 				//Packe Kommando in MessageIn
 				MessageIn msg=new MessageIn(commandData);
 
-				Logger.Add(LogLevel.Debug, "Received message {0} from {1}", (Protocol)msg.getId(), comp);
+				Logger.Write(LogLevel.Debug, "Received message {0} from {1}", (Protocol)msg.getId(), comp);
 
 				processMessage(comp, msg);
 			}
 			
 			//Disconnect
 			IPEndPoint remoteEndPoint=(IPEndPoint)(peer.Client.RemoteEndPoint);
-			Logger.Add(LogLevel.Information, "Client {0}:{1} disconnected", remoteEndPoint.Address, remoteEndPoint.Port);
+			Logger.Write(LogLevel.Information, "Client {0}:{1} disconnected", remoteEndPoint.Address, remoteEndPoint.Port);
 
 			// Reset the peer's client information.
 			computerDisconnected(comp);
@@ -216,7 +216,7 @@ namespace ISL.Server.Network
 				// Enter the listening loop.
 				while(true)
 				{
-					Logger.Add(LogLevel.Information, "Waiting for a connection...");
+					Logger.Write(LogLevel.Information, "Waiting for a connection...");
 
 					// Perform a blocking call to accept requests.
 					// You could also user server.AcceptSocket() here.
@@ -227,7 +227,7 @@ namespace ISL.Server.Network
 
 					NetComputer comp=computerConnected(client);
 					clients.Add(comp);
-					Logger.Add(LogLevel.Information, "A new client connected from {0}:{1} to port {2}", remoteEndPoint.Address, remoteEndPoint.Port, port);
+					Logger.Write(LogLevel.Information, "A new client connected from {0}:{1} to port {2}", remoteEndPoint.Address, remoteEndPoint.Port, port);
 
 					//Client to thread
 					Thread clientThread;	// Der Thread in dem die Process Funktion läuft

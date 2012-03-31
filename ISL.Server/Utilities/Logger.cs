@@ -135,7 +135,7 @@ namespace ISL.Server.Utilities
 		/// Fügt einen neuen Eintrag zum Logsystem dazu
 		/// </summary>
 		/// <param name="message"></param>
-		public static void Add(LogLevel logLevel, string message, params object[] arg)
+		public static void Write(LogLevel logLevel, string message, params object[] arg)
 		{
 			if(LogMode==LogMode.None) return;
 

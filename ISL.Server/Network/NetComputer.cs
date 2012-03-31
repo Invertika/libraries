@@ -81,7 +81,7 @@ namespace ISL.Server.Network
 
 		public void send(MessageOut msg, bool reliable, uint channel)
 		{
-			Logger.Add(LogLevel.Debug, "Sending message {0} to {1}", msg, this);
+			Logger.Write(LogLevel.Debug, "Sending message {0} to {1}", msg, this);
 
 			//gBandwidth->increaseClientOutput(this, msg.getLength());
 
