@@ -307,7 +307,7 @@ namespace ISL.Server.Network
 			//}
 		}
 
-		void sendToEveryone(MessageOut msg)
+		protected void sendToEveryone(MessageOut msg)
 		{
 			//for (NetComputers::iterator i = clients.begin(), i_end = clients.end();
 			//     i != i_end; ++i)
