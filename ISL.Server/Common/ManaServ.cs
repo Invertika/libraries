@@ -41,7 +41,6 @@ namespace ISL.Server.Common
 		public const int MAGIC_TOKEN_LENGTH=32; //TODO muss auf die Länge von Varios.GetUniqueID angepasst werden
 
 		// Generic return values
-
 		public const int ERRMSG_OK=0;                      // everything is fine
 		public const int ERRMSG_FAILURE=1;                     // the action failed
 		public const int ERRMSG_NO_LOGIN=2;                    // the user is not yet logged
@@ -96,7 +95,6 @@ namespace ISL.Server.Common
 		public const int MOVING_POSITION=1;
 		// Payload contains the destination.
 		public const int MOVING_DESTINATION=2;
-
 
 		// Chat errors return values
 		public const int CHAT_USING_BAD_WORDS=0x40;
