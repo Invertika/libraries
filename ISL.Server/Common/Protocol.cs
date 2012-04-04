@@ -264,5 +264,16 @@ namespace ISL.Server.Common
 		GAMSG_REMOVE_ITEM_ON_MAP=0x0602, // D map id, D item id, W amount, W pos x, W pos y
 
 		XXMSG_INVALID=0x7FFF
+
+
+
+
+
+
+
+
+
+
+
 	}
 }

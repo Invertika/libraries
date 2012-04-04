@@ -53,6 +53,16 @@
     <Compile Include="Common\StackableType.cs" />
     <Compile Include="Common\Sync.cs" />
     <Compile Include="Common\ThingType.cs" />
+    <Compile Include="Enums\ChatValues.cs" />
+    <Compile Include="Enums\Create.cs" />
+    <Compile Include="Enums\DataVersion.cs" />
+    <Compile Include="Enums\ErrorMessage.cs" />
+    <Compile Include="Enums\Guild.cs" />
+    <Compile Include="Enums\Login.cs" />
+    <Compile Include="Enums\Moving.cs" />
+    <Compile Include="Enums\Password.cs" />
+    <Compile Include="Enums\Register.cs" />
+    <Compile Include="Enums\Sync.cs" />
     <Compile Include="Game\Special.cs" />
     <Compile Include="Network\BandwidthMonitor.cs" />
     <Compile Include="Network\ConnectionHandler.cs" />
