@@ -1,4 +1,4 @@
-//
+﻿//
 //  Guild.cs
 //
 //  This file is part of Invertika (http://invertika.org)
@@ -31,7 +31,7 @@ using System.Text;
 
 namespace ISL.Server.Enums
 {
-	public enum Guild
+	public enum GuildValues
 	{
 		// Guild member event values
 		GUILD_EVENT_NEW_PLAYER=0,
