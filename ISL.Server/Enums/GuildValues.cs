@@ -1,5 +1,5 @@
-﻿//
-//  Guild.cs
+//
+//  GuildValues.cs
 //
 //  This file is part of Invertika (http://invertika.org)
 // 
