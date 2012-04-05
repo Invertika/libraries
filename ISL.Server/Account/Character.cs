@@ -38,9 +38,9 @@ namespace ISL.Server.Account
 		//Character &operator=(const Character &);
 
 		//double getAttrBase(AttributeMap::const_iterator &it) const
-		//{ return it->second.base; }
+		//{ return it.second.base; }
 		//double getAttrMod(AttributeMap::const_iterator &it) const
-		//{ return it->second.modified; }
+		//{ return it.second.modified; }
 
 		//Possessions mPossessions; //!< All the possesions of the character.
 		string mName;        //!< Name of the character.

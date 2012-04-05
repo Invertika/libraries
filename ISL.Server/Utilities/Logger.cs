@@ -76,7 +76,7 @@ namespace ISL.Server.Utilities
 		{
 			return String.Format("[{0:D2}:{1:D2}:{2:D2}] ({3}): {4}", Timecode.Hour, Timecode.Minute, Timecode.Second, Mode.ToString().ToUpper(), Message);
 			//return String.Format("[{0:D4}.{1:D2}.{2:D2}]:[{3:D2}:{4:D2}:{5:D2}:{6:D3}] ({7}): {8}", Timecode.Year, Timecode.Month, Timecode.Day, Timecode.Hour, Timecode.Minute, Timecode.Second, Timecode.Millisecond, Mode.ToString().ToUpper(), Message);
-			//return String.Format("[{0:D4}.{1:D2}.{2:D2}] -> [{3:D2}:{4:D2}:{5:D2}:{6:D3}] -> {7} -> {8}", Timecode.Year, Timecode.Month, Timecode.Day, Timecode.Hour, Timecode.Minute, Timecode.Second, Timecode.Millisecond, Mode.ToString().ToUpper(), Message);
+			//return String.Format("[{0:D4}.{1:D2}.{2:D2}] . [{3:D2}:{4:D2}:{5:D2}:{6:D3}] . {7} . {8}", Timecode.Year, Timecode.Month, Timecode.Day, Timecode.Hour, Timecode.Minute, Timecode.Second, Timecode.Millisecond, Mode.ToString().ToUpper(), Message);
 		}
 	}
 

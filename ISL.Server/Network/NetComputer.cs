@@ -53,7 +53,7 @@ namespace ISL.Server.Network
 
 		bool isConnected()
 		{
-			// return (mPeer->state == ENET_PEER_STATE_CONNECTED);
+			// return (mPeer.state == ENET_PEER_STATE_CONNECTED);
 			return true;
 		}
 
@@ -83,7 +83,7 @@ namespace ISL.Server.Network
 		{
 			Logger.Write(LogLevel.Debug, "Sending message {0} to {1}", msg, this);
 
-			//gBandwidth->increaseClientOutput(this, msg.getLength());
+			//gBandwidth.increaseClientOutput(this, msg.getLength());
 
 			NetworkStream stream=mPeer.GetStream();
 
@@ -109,24 +109,24 @@ namespace ISL.Server.Network
 		//{
 		//    // address.host contains the ip-address in network-byte-order
 		//    if (utils::processor::isLittleEndian)
-		//        os << ( comp.mPeer->address.host & 0x000000ff)        << "."
-		//           << ((comp.mPeer->address.host & 0x0000ff00) >> 8)  << "."
-		//           << ((comp.mPeer->address.host & 0x00ff0000) >> 16) << "."
-		//           << ((comp.mPeer->address.host & 0xff000000) >> 24);
+		//        os << ( comp.mPeer.address.host & 0x000000ff)        << "."
+		//           << ((comp.mPeer.address.host & 0x0000ff00) >> 8)  << "."
+		//           << ((comp.mPeer.address.host & 0x00ff0000) >> 16) << "."
+		//           << ((comp.mPeer.address.host & 0xff000000) >> 24);
 		//    else
 		//    // big-endian
 		//    // TODO: test this
-		//        os << ((comp.mPeer->address.host & 0xff000000) >> 24) << "."
-		//           << ((comp.mPeer->address.host & 0x00ff0000) >> 16) << "."
-		//           << ((comp.mPeer->address.host & 0x0000ff00) >> 8)  << "."
-		//           << ((comp.mPeer->address.host & 0x000000ff));
+		//        os << ((comp.mPeer.address.host & 0xff000000) >> 24) << "."
+		//           << ((comp.mPeer.address.host & 0x00ff0000) >> 16) << "."
+		//           << ((comp.mPeer.address.host & 0x0000ff00) >> 8)  << "."
+		//           << ((comp.mPeer.address.host & 0x000000ff));
 
 		//    return os;
 		//}
 
 		int getIP()
 		{
-			//return mPeer->address.host;
+			//return mPeer.address.host;
 			return 0; //ssk;
 		}
 

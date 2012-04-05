@@ -112,11 +112,11 @@ namespace ISL.Server.Network
 			//// TODO: probably there's a better way.
 			//ENetPeer *currentPeer;
 
-			//for (currentPeer = host->peers;
-			//     currentPeer < &host->peers[host->peerCount];
+			//for (currentPeer = host.peers;
+			//     currentPeer < &host.peers[host.peerCount];
 			//     ++currentPeer)
 			//{
-			//   if (currentPeer->state == ENET_PEER_STATE_CONNECTED)
+			//   if (currentPeer.state == ENET_PEER_STATE_CONNECTED)
 			//   {
 			//        enet_peer_disconnect(currentPeer, 0);
 			//        enet_host_flush(host);
@@ -256,29 +256,29 @@ namespace ISL.Server.Network
 			////////////            NetComputer *comp = computerConnected(event.peer);
 			////////////            clients.push_back(comp);
 			////////////            LOG_INFO("A new client connected from " << *comp << ":"
-			////////////                     << event.peer->address.port << " to port "
-			////////////                     << host->address.port);
+			////////////                     << event.peer.address.port << " to port "
+			////////////                     << host.address.port);
 
 			////////////            // Store any relevant client information here.
-			////////////            event.peer->data = (void *)comp;
+			////////////            event.peer.data = (void *)comp;
 			////////////        } break;
 
 			//        case ENET_EVENT_TYPE_RECEIVE:
 			//        {
 			//            NetComputer *comp =
-			//                static_cast<NetComputer*>(event.peer->data);
+			//                static_cast<NetComputer*>(event.peer.data);
 
 			//            // If the scripting subsystem didn't hook the message
 			//            // it will be handled by the default message handler.
 
 			//            // Make sure that the packet is big enough (> short)
-			//            if (event.packet->dataLength >= 2) {
-			//                MessageIn msg((char *)event.packet->data,
-			//                              event.packet->dataLength);
+			//            if (event.packet.dataLength >= 2) {
+			//                MessageIn msg((char *)event.packet.data,
+			//                              event.packet.dataLength);
 			//                LOG_DEBUG("Received message " << msg << " from "
 			//                          << *comp);
 
-			//                gBandwidth->increaseClientInput(comp, event.packet->dataLength);
+			//                gBandwidth.increaseClientInput(comp, event.packet.dataLength);
 
 			//                processMessage(comp, msg);
 			//            } else {
@@ -292,14 +292,14 @@ namespace ISL.Server.Network
 			//        case ENET_EVENT_TYPE_DISCONNECT:
 			//        {
 			//            NetComputer *comp =
-			//                static_cast<NetComputer*>(event.peer->data);
+			//                static_cast<NetComputer*>(event.peer.data);
 
 			//            LOG_INFO("" << *comp << " disconnected.");
 
 			//            // Reset the peer's client information.
 			//            computerDisconnected(comp);
 			//            clients.erase(std::find(clients.begin(), clients.end(), comp));
-			//            event.peer->data = NULL;
+			//            event.peer.data = NULL;
 			//        } break;
 
 			//        default: break;
@@ -312,7 +312,7 @@ namespace ISL.Server.Network
 			//for (NetComputers::iterator i = clients.begin(), i_end = clients.end();
 			//     i != i_end; ++i)
 			//{
-			//    (*i)->send(msg);
+			//    (*i).send(msg);
 			//}
 		}
 

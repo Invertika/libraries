@@ -93,7 +93,7 @@ namespace ISL.Server.Network
 			//    itr = retItr.first;
 			//}
 
-			//itr->second.first += size;
+			//itr.second.first += size;
 
 		}
 
@@ -112,7 +112,7 @@ namespace ISL.Server.Network
 			//    itr = retItr.first;
 			//}
 
-			//itr->second.second += size;
+			//itr.second.second += size;
 		}
 	}
 }

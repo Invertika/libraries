@@ -42,8 +42,8 @@ namespace ISL.Server.Network
 		Protocol mId;           /**< The message ID. */
 
 		/**
-		 * Actual position in the packet. From 0 to packet->length. A value
-		 * bigger than packet->length means EOP was reached when reading it.
+		 * Actual position in the packet. From 0 to packet.length. A value
+		 * bigger than packet.length means EOP was reached when reading it.
 		 */
 		ushort mPos;
 

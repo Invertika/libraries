@@ -64,8 +64,8 @@ namespace ISL.Server.Serialize
 			//Dictionary<int, int>::const_iterator skill_it;
 			//for (skill_it = data.getSkillBegin(); skill_it != data.getSkillEnd() ; skill_it++)
 			//{
-			//    msg.writeInt16(skill_it->first);
-			//    msg.writeInt32(skill_it->second);
+			//    msg.writeInt16(skill_it.first);
+			//    msg.writeInt32(skill_it.second);
 			//}
 
 			//// status effects currently affecting the character
@@ -73,8 +73,8 @@ namespace ISL.Server.Serialize
 			//std::map<int, int>::const_iterator status_it;
 			//for (status_it = data.getStatusEffectBegin(); status_it != data.getStatusEffectEnd(); status_it++)
 			//{
-			//    msg.writeInt16(status_it->first);
-			//    msg.writeInt16(status_it->second);
+			//    msg.writeInt16(status_it.first);
+			//    msg.writeInt16(status_it.second);
 			//}
 
 			//// location
@@ -88,8 +88,8 @@ namespace ISL.Server.Serialize
 			//Dictionary<int, int>::const_iterator kills_it;
 			//for (kills_it = data.getKillCountBegin(); kills_it != data.getKillCountEnd(); kills_it++)
 			//{
-			//    msg.writeInt16(kills_it->first);
-			//    msg.writeInt32(kills_it->second);
+			//    msg.writeInt16(kills_it.first);
+			//    msg.writeInt32(kills_it.second);
 			//}
 
 			//// character specials
@@ -97,7 +97,7 @@ namespace ISL.Server.Serialize
 			//msg.writeInt16(data.getSpecialSize());
 			//for (special_it = data.getSpecialBegin(); special_it != data.getSpecialEnd() ; special_it++)
 			//{
-			//    msg.writeInt32(special_it->first);
+			//    msg.writeInt32(special_it.first);
 			//}
 
 			//// inventory - must be last because size isn't transmitted
@@ -107,18 +107,18 @@ namespace ISL.Server.Serialize
 			//for (EquipData::const_iterator k = equipData.begin(),
 			//         k_end = equipData.end(); k != k_end; ++k)
 			//{
-			//    msg.writeInt16(k->first);                 // Equip slot id
-			//    msg.writeInt16(k->second.itemId);         // ItemId
-			//    msg.writeInt16(k->second.itemInstance);   // Item Instance id
+			//    msg.writeInt16(k.first);                 // Equip slot id
+			//    msg.writeInt16(k.second.itemId);         // ItemId
+			//    msg.writeInt16(k.second.itemInstance);   // Item Instance id
 			//}
 
 			//const InventoryData &inventoryData = poss.getInventory();
 			//for (InventoryData::const_iterator j = inventoryData.begin(),
 			//     j_end = inventoryData.end(); j != j_end; ++j)
 			//{
-			//    msg.writeInt16(j->first);           // slot id
-			//    msg.writeInt16(j->second.itemId);   // item id
-			//    msg.writeInt16(j->second.amount);   // amount
+			//    msg.writeInt16(j.first);           // slot id
+			//    msg.writeInt16(j.second.itemId);   // item id
+			//    msg.writeInt16(j.second.amount);   // amount
 			//}
 		}
 
