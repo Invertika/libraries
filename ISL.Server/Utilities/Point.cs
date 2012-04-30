@@ -23,7 +23,6 @@
 // 
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,13 +35,17 @@ namespace ISL.Server.Utilities
 	 */
 	public class Point
 	{
-		//Point():
-		//    x(0), y(0)
-		//{}
+		public Point()
+		{
+			x=0;
+			y=0;
+		}
 
-		//Point(int X, int Y):
-		//    x(X), y(Y)
-		//{}
+		public Point(int X, int Y)
+		{
+			x=X;
+			y=Y;
+		}
 
 		public int x; /**< x coordinate */
 		public int y; /**< y coordinate */
