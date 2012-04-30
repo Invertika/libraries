@@ -51,7 +51,6 @@
     <Compile Include="Common\ResourceManager.cs" />
     <Compile Include="Common\SplittedPath.cs" />
     <Compile Include="Common\StackableType.cs" />
-    <Compile Include="Common\Sync.cs" />
     <Compile Include="Common\ThingType.cs" />
     <Compile Include="Enums\ChatValues.cs" />
     <Compile Include="Enums\Create.cs" />
