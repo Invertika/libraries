@@ -45,58 +45,6 @@ namespace ISL.Server.Common
  */
 		public const int DEFAULT_TILE_LENGTH=32;
 
-		/**
-		  * Moves enum for beings and actors for others players vision.
-		  * WARNING: Has to be in sync with the same enum in the Being class
-		  * of the client!
-		  */
-		enum BeingAction
-		{
-			STAND,
-			WALK,
-			ATTACK,
-			SIT,
-			DEAD,
-			HURT
-		}
-
-		/**
-		  * Moves enum for beings and actors for others players attack types.
-		  * WARNING: Has to be in sync with the same enum in the Being class
-		  * of the client!
-		  */
-		enum AttackType
-		{
-			HIT=0x00,
-			CRITICAL=0x0a,
-			MULTI=0x08,
-			REFLECT=0x04,
-			FLEE=0x0b
-		}
-
-		/**
-		 * Beings and actors directions
-		 * WARNING: Has to be in sync with the same enum in the Being class
-		 * of the client!
-		 */
-		enum BeingDirection
-		{
-			DOWN=1,
-			LEFT=2,
-			UP=4,
-			RIGHT=8
-		}
-
-		/**
-		 * Beings Genders
-		 */
-		enum BeingGender
-		{
-			GENDER_MALE=0,
-			GENDER_FEMALE,
-			GENDER_UNSPECIFIED
-		}
-
 		// Helper functions for gender
 
 		/**
