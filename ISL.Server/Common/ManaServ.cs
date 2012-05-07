@@ -41,6 +41,11 @@ namespace ISL.Server.Common
 		public const int MAGIC_TOKEN_LENGTH=32; //TODO muss auf die Länge von Varios.GetUniqueID angepasst werden
 
 		/**
+ * Default tile length in pixel
+ */
+		public const int DEFAULT_TILE_LENGTH=32;
+
+		/**
 		  * Moves enum for beings and actors for others players vision.
 		  * WARNING: Has to be in sync with the same enum in the Being class
 		  * of the client!
