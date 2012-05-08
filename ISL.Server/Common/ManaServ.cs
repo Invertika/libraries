@@ -40,37 +40,6 @@ namespace ISL.Server.Common
 
 		public const int MAGIC_TOKEN_LENGTH=32; //TODO muss auf die Länge von Varios.GetUniqueID angepasst werden
 
-		/**
- * Default tile length in pixel
- */
-		public const int DEFAULT_TILE_LENGTH=32;
-
-		// Helper functions for gender
-
-		/**
-		* Helper function for getting gender by int
-		*/
-		static BeingGender getGender(int gender)
-		{
-			switch(gender)
-			{
-				case 0:
-					return BeingGender.GENDER_MALE;
-				case 1:
-					return BeingGender.GENDER_FEMALE;
-				default:
-					return BeingGender.GENDER_UNSPECIFIED;
-			}
-		}
-
-		/**
-		* Helper function for getting gender by string
-		*/
-		static BeingGender getGender(string gender)
-		{
-			if(gender.ToLower()=="male") return BeingGender.GENDER_MALE;
-			else if(gender.ToLower()=="female") return BeingGender.GENDER_FEMALE;
-			else return BeingGender.GENDER_UNSPECIFIED;
-		}
+		public const int DEFAULT_TILE_LENGTH=32; //Default tile length in pixel
 	}
 }
