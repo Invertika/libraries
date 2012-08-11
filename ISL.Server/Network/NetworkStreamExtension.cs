@@ -58,5 +58,11 @@ namespace ISL.Server.Network
 				offset+=read;
 			}
 		}
+
+		//TODO Überprüfen ob diese Methode als Extension erkannt wird
+		public static void Write(this NetworkStream stream, byte[] buffer)
+		{
+			stream.Write(buffer, 0, buffer.Length);
+		}
 	}
 }

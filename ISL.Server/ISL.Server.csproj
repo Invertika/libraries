@@ -76,6 +76,8 @@
     <Compile Include="Enums\ExitValue.cs" />
     <Compile Include="Utilities\Point.cs" />
     <Compile Include="Utilities\Rectangle.cs" />
+    <Compile Include="Network\Websocket.cs" />
+    <Compile Include="Network\WebSocketReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\cscl.googlecode.com\CSCL\CSCL.csproj">

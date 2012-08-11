@@ -97,7 +97,9 @@ namespace ISL.Server.Common
 			{
 				if(node.Attributes["name"].Value==key)
 				{
-					return Convert.ToBoolean(node.Attributes["value"].Value);
+					if(node.Attributes["value"].Value=="0") return false;
+					else if (node.Attributes["value"].Value=="1") return true;
+					else return Convert.ToBoolean(node.Attributes["value"].Value);
 				}
 			}
 
