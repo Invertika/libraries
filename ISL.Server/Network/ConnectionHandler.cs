@@ -165,37 +165,9 @@ namespace ISL.Server.Network
             while (true) //TODO Abbruchkriterium definieren
             {
                 MessageIn msg = reader.ReadMessage();
-
-                //   MessageIn msg = new MessageIn(commandData);
                 Logger.Write(LogLevel.Debug, "Received message {0} from {1}", (Protocol)msg.getId(), comp);
                 processMessage(comp, msg);
             }
-
-//            //// Loop to receive all the data sent by the client.
-//            //while((i=stream.Read(bytes, 0, bytes.Length))!=0)
-//            while ((i=stream.Read(length, 0, length.Length))!=0)
-//            { //TODO Auf ReadSecure umbiegen
-//                ushort commandLength = (ushort)BitConverter.ToUInt16(length, 0);
-//
-// System.Text.UTF8Encoding enc = new System.Text.UTF8Encoding();
-//    string ttt= enc.GetString(length);
-//
-//                //Empfange Kommando
-//                //Byte[] commandData=new Byte[commandLength];
-//                //int readed=stream.Read(commandData, 0, commandData.Length);
-//                //int readed=
-//                byte[] commandData = stream.Read(commandLength);
-//                //stream.Read(commandData, 0, commandData.Length);
-//
-//
-//                //TODO Wartemn bis Menge wirklich komplett
-//                //Packe Kommando in MessageIn
-//                MessageIn msg = new MessageIn(commandData);
-//
-//                Logger.Write(LogLevel.Debug, "Received message {0} from {1}", (Protocol)msg.getId(), comp);
-//
-//                processMessage(comp, msg);
-//            }
 			
             //Disconnect
             IPEndPoint remoteEndPoint = (IPEndPoint)(peer.Client.RemoteEndPoint);
