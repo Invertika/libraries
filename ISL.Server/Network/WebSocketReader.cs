@@ -37,34 +37,49 @@ namespace ISL.Server
         /// </param>
         MessageIn InterpretMessage(string message)
         {
-            //TODO Doppelpunkte in Stringnachrichten müssen maskiert werden
-            string[] parts = message.Split(new char[] {':'});
-
-            int cmdValue = Int32.Parse(parts [0], System.Globalization.NumberStyles.HexNumber);
-            Protocol command = (Protocol)cmdValue;
-
-            MemoryStream stream = new MemoryStream();
-            BinaryWriter writer = new BinaryWriter(stream);
-
-            //Bytepaket zusammenbauen
-            writer.Write((UInt16)cmdValue);
-
-            switch (command)
+            try
             {
-                case Protocol.CMSG_SERVER_VERSION_REQUEST:
-                    {
-                        //Bei diesen Kommandos muss nichts passieren
-                        //da sie nur aus der ID bestehen.
-                        break;
-                    }
-                default:
-                    {
-                        Logger.Write(LogLevel.Warning, "Unimplemended command ({0}) in function InterpretMessage", cmdValue);
-                        break;
-                    }
-            }
+                //TODO Doppelpunkte in Stringnachrichten müssen maskiert werden
+                string[] parts = message.Split(new char[] {':'});
 
-            return new MessageIn(stream.ToArray());
+                int cmdValue = Int32.Parse(parts [0], System.Globalization.NumberStyles.HexNumber);
+                Protocol command = (Protocol)cmdValue;
+
+                MemoryStream stream = new MemoryStream();
+                BinaryWriter writer = new BinaryWriter(stream);
+
+                //Bytepaket zusammenbauen
+                writer.Write((UInt16)cmdValue);
+
+                switch (command)
+                {
+                    case Protocol.CMSG_SERVER_VERSION_REQUEST:
+                        {
+                            //Bei diesen Kommandos muss nichts passieren
+                            //da sie nur aus der ID bestehen.
+                            break;
+                        }
+                    default:
+                        {
+                            Logger.Write(LogLevel.Warning, "Unimplemended command ({0}) in function InterpretMessage.", cmdValue);
+                            break;
+                        }
+                }
+
+                return new MessageIn(stream.ToArray());
+            } catch
+            {
+                //0x7FFF XXX Invalid Message in die Message schreiben
+                Logger.Write(LogLevel.Warning, "Invalid message recieved.");
+
+                MemoryStream stream = new MemoryStream();
+                BinaryWriter writer = new BinaryWriter(stream);
+                
+                //Bytepaket zusammenbauen
+                writer.Write((UInt16)Protocol.XXMSG_INVALID);
+
+                return new MessageIn(stream.ToArray());
+            }
         }
 
         byte[] ReadWebsocketPackage()
