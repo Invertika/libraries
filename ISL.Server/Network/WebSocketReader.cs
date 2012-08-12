@@ -1,6 +1,10 @@
 using System;
 using System.Net.Sockets;
 using ISL.Server.Network;
+using ISL.Server.Common;
+using System.IO;
+using ISL.Server.Utilities;
+using System.Text;
 
 namespace ISL.Server
 {
@@ -8,19 +12,59 @@ namespace ISL.Server
     {
         NetworkStream baseStream;
 
-         public WebSocketReader(NetworkStream stream)
+        public WebSocketReader(NetworkStream stream)
         {
-            baseStream=stream;
+            baseStream = stream;
         }
 
 
         public MessageIn ReadMessage()
         {
-            byte[] webSocketPacket=ReadWebsocketPackage();
+            byte[] webSocketPacket = ReadWebsocketPackage();
+            UTF8Encoding encoding = new UTF8Encoding();
+            string message = encoding.GetString(webSocketPacket);
+            return InterpretMessage(message);
+        }
 
+        /// <summary>
+        /// Interprets the message.
+        /// </summary>
+        /// <returns>
+        /// The message.
+        /// </returns>
+        /// <param name='message'>
+        /// Message.
+        /// </param>
+        MessageIn InterpretMessage(string message)
+        {
+            //TODO Doppelpunkte in Stringnachrichten müssen maskiert werden
+            string[] parts = message.Split(new char[] {':'});
 
-            return null;
+            int cmdValue = Convert.ToInt32(parts [0]);
+            Protocol command = (Protocol)cmdValue;
 
+            MemoryStream stream = new MemoryStream();
+            BinaryWriter writer = new BinaryWriter(stream);
+
+            //Bytepaket zusammenbauen
+            writer.Write((UInt16)cmdValue);
+
+            switch (command)
+            {
+                case Protocol.CMSG_SERVER_VERSION_REQUEST:
+                    {
+                        //Bei diesen Kommandos muss nichts passieren
+                        //da sie nur aus der ID bestehen.
+                        break;
+                    }
+                default:
+                    {
+                        Logger.Write(LogLevel.Warning, "Unimplemended command ({0}) in function InterpretMessage", cmdValue);
+                        break;
+                    }
+            }
+
+            return new MessageIn(stream.ToArray());
         }
 
         byte[] ReadWebsocketPackage()
