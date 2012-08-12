@@ -40,7 +40,7 @@ namespace ISL.Server
             //TODO Doppelpunkte in Stringnachrichten müssen maskiert werden
             string[] parts = message.Split(new char[] {':'});
 
-            int cmdValue = Convert.ToInt32(parts [0]);
+            int cmdValue = Int32.Parse(parts [0], System.Globalization.NumberStyles.HexNumber);
             Protocol command = (Protocol)cmdValue;
 
             MemoryStream stream = new MemoryStream();
