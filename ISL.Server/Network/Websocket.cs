@@ -13,11 +13,13 @@ namespace ISL.Server
 	/// </summary>
 	public static class Websocket
 	{
-        static private string guid = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
+        static string guid = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
+		static SHA1 sha1=SHA1CryptoServiceProvider.Create();
 
         public static void OnAccept(TcpClient tcpClient)
         {
             byte[] buffer = new byte[1024];
+
             try
             {
 				NetworkStream stream = tcpClient.GetStream();
@@ -27,22 +29,21 @@ namespace ISL.Server
 
                 if (stream != null)
                 {
-                    /* Handshaking and managing ClientSocket */
-
-                    var key = headerResponse.Replace("ey:", "`")
+                    //Handshaking and managing ClientSocket
+                    string key = headerResponse.Replace("ey:", "`")
                               .Split('`')[1]                     // dGhlIHNhbXBsZSBub25jZQ== \r\n .......
                               .Replace("\r", "").Split('\n')[0]  // dGhlIHNhbXBsZSBub25jZQ==
                               .Trim();
 
                     // key should now equal dGhlIHNhbXBsZSBub25jZQ==
-                    var test1 = AcceptKey(ref key);
+                    string acceptKey = AcceptKey(ref key);
 
                     var newLine = "\r\n";
 
                     var response = "HTTP/1.1 101 Switching Protocols" + newLine
                          + "Upgrade: websocket" + newLine
                          + "Connection: Upgrade" + newLine
-                         + "Sec-WebSocket-Accept: " + test1 + newLine + newLine
+                         + "Sec-WebSocket-Accept: " + acceptKey + newLine + newLine
                          //+ "Sec-WebSocket-Protocol: chat, superchat" + newLine
                          //+ "Sec-WebSocket-Version: 13" + newLine
                          ;
@@ -61,23 +62,14 @@ namespace ISL.Server
             }
         }
 
-        public static T[] SubArray<T>(T[] data, int index, int length)
-        {
-            T[] result = new T[length];
-            Array.Copy(data, index, result, 0, length);
-            return result;
-        }
-
-        private static string AcceptKey(ref string key)
+        static string AcceptKey(ref string key)
         {
             string longKey = key + guid;
             byte[] hashBytes = ComputeHash(longKey);
             return Convert.ToBase64String(hashBytes);
         }
 
-        static SHA1 sha1 = SHA1CryptoServiceProvider.Create();
-        
-		private static byte[] ComputeHash(string str)
+		static byte[] ComputeHash(string str)
         {
             return sha1.ComputeHash(System.Text.Encoding.ASCII.GetBytes(str));
         }
