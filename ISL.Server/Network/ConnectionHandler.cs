@@ -162,7 +162,7 @@ namespace ISL.Server.Network
 
             WebSocketReader reader = new WebSocketReader(stream);
 
-            while (true) //TODO Abbruchkriterium definieren
+            while (true) //TODO Abbruchkriterium definieren, evt den Close Opcode im Websocket beachten?
             {
                 MessageIn msg = reader.ReadMessage();
                 Logger.Write(LogLevel.Debug, "Received message {0} from {1}", (Protocol)msg.getId(), comp);
