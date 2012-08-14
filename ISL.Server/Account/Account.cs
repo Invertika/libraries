@@ -124,5 +124,25 @@ namespace ISL.Server.Account
         {
             return mName;
         }
+
+        /**
+         * Get the user password (hashed with salt).
+         *
+         * @return the user password (hashed with salt).
+         */
+        public string getPassword()
+        {
+            return mPassword;
+        }
+
+        /**
+         * Get the user random salt.
+         *
+         * @return the random salt used for next login.
+         */
+        public string getRandomSalt()
+        {
+            return mRandomSalt;
+        }
     }
 }
