@@ -45,8 +45,8 @@ namespace ISL.Server.Account
         Dictionary<uint, Character> mCharacters;   /**< Character data */
         int mID;                  /**< Unique id */
         byte mLevel;     /**< Account level */
-        //time_t mRegistrationDate; /**< Date and time of the account registration */
-        //time_t mLastLogin;        /**< Date and time of the last login */
+        DateTime mRegistrationDate; /**< Date and time of the account registration */
+        DateTime mLastLogin;        /**< Date and time of the last login */
 
         /// <summary>
         /// Get all the characters.
@@ -89,11 +89,10 @@ namespace ISL.Server.Account
         //    //mRegistrationDate = time;
         //}
 
-        //void setLastLogin(time_t time)
-        //{
-        //    //mLastLogin = time;
-        //}
-
+        public void setLastLogin(DateTime time)
+        {
+            mLastLogin = time;
+        }
 
         /**
 		 * Get the account level.
@@ -143,6 +142,14 @@ namespace ISL.Server.Account
         public string getRandomSalt()
         {
             return mRandomSalt;
+        }
+
+        /**
+         * Get the time of the last login.
+         */
+        public DateTime getLastLogin()
+        {
+            return mLastLogin;
         }
     }
 }
