@@ -13,9 +13,9 @@
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>False</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -23,7 +23,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>True</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -39,9 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Account\Account.cs" />
     <Compile Include="Account\AttributeValue.cs" />
-    <Compile Include="Account\Character.cs" />
     <Compile Include="Common\AttribmodResponseCode.cs" />
     <Compile Include="Common\CommandLineOptions.cs" />
     <Compile Include="Common\Configuration.cs" />
@@ -78,9 +76,11 @@
     <Compile Include="Utilities\Rectangle.cs" />
     <Compile Include="Network\Websocket.cs" />
     <Compile Include="Network\WebSocketReader.cs" />
+    <Compile Include="Account\Character.cs" />
+    <Compile Include="Account\Account.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\cscl\CSCL\CSCL.csproj">
+    <ProjectReference Include="..\..\..\cscl.googlecode.com\CSCL\CSCL.csproj">
       <Project>{0E720343-5366-4C3A-BC59-7B7FD2C311B5}</Project>
       <Name>CSCL</Name>
     </ProjectReference>

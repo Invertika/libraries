@@ -32,87 +32,97 @@ using System.Diagnostics;
 
 namespace ISL.Server.Account
 {
-	public class Account
-	{
-		//        Account(const Account &rhs);
-		//Account &operator=(const Account &rhs);
+    public class Account
+    {
+        //        Account(const Account &rhs);
+        //Account &operator=(const Account &rhs);
 
-		string mName;        /**< User name */
-		string mPassword;    /**< User password (hashed with salt) */
-		string mRandomSalt;  /**< A random sequence sent to client to
+        string mName;        /**< User name */
+        string mPassword;    /**< User password (hashed with salt) */
+        string mRandomSalt;  /**< A random sequence sent to client to
                                        protect against replay attacks.*/
-		string mEmail;       /**< User email address (hashed) */
-		Dictionary<uint, Character> mCharacters;   /**< Character data */
-		int mID;                  /**< Unique id */
-		byte mLevel;     /**< Account level */
-		//time_t mRegistrationDate; /**< Date and time of the account registration */
-		//time_t mLastLogin;        /**< Date and time of the last login */
+        string mEmail;       /**< User email address (hashed) */
+        Dictionary<uint, Character> mCharacters;   /**< Character data */
+        int mID;                  /**< Unique id */
+        byte mLevel;     /**< Account level */
+        //time_t mRegistrationDate; /**< Date and time of the account registration */
+        //time_t mLastLogin;        /**< Date and time of the last login */
 
-		/// <summary>
-		/// Get all the characters.
-		/// </summary>
-		/// <returns>all the characters.</returns>
-		public Dictionary<uint, Character> getCharacters()
-		{
-			return mCharacters;
-		}
+        /// <summary>
+        /// Get all the characters.
+        /// </summary>
+        /// <returns>all the characters.</returns>
+        public Dictionary<uint, Character> getCharacters()
+        {
+            return mCharacters;
+        }
 
-		bool isSlotEmpty(uint slot)
-		{
-			return !mCharacters.ContainsKey(slot);
-		}
+        bool isSlotEmpty(uint slot)
+        {
+            return !mCharacters.ContainsKey(slot);
+        }
 
-		void setCharacters(Dictionary<uint, Character> characters)
-		{
-			mCharacters=characters;
-		}
+        void setCharacters(Dictionary<uint, Character> characters)
+        {
+            mCharacters = characters;
+        }
 
-		void addCharacter(Character character)
-		{
-			uint slot=character.getCharacterSlot();
-			mCharacters[slot]=character;
-		}
+        void addCharacter(Character character)
+        {
+            uint slot = character.getCharacterSlot();
+            mCharacters [slot] = character;
+        }
 
-		void delCharacter(uint slot)
-		{
-			mCharacters.Remove(slot);
-		}
+        void delCharacter(uint slot)
+        {
+            mCharacters.Remove(slot);
+        }
 
-		void setID(int id)
-		{
-			Debug.Assert(mID<0);
-			mID=id;
-		}
+        void setID(int id)
+        {
+            Debug.Assert(mID < 0);
+            mID = id;
+        }
 
-		//void setRegistrationDate(time_ ttime)
-		//{
-		//    //mRegistrationDate = time;
-		//}
+        //void setRegistrationDate(time_ ttime)
+        //{
+        //    //mRegistrationDate = time;
+        //}
 
-		//void setLastLogin(time_t time)
-		//{
-		//    //mLastLogin = time;
-		//}
+        //void setLastLogin(time_t time)
+        //{
+        //    //mLastLogin = time;
+        //}
 
 
-		/**
+        /**
 		 * Get the account level.
 		 *
 		 * @return the account level.
 		 */
-		public int getLevel()
-		{
-			return mLevel;
-		}
+        public int getLevel()
+        {
+            return mLevel;
+        }
 
-		/**
+        /**
    * Get account ID.
    *
    * @return the unique ID of the account, a negative number if none yet.
    */
-		public int getID()
-		{
-			return mID;
-		}
-	}
+        public int getID()
+        {
+            return mID;
+        }
+
+        /**
+         * Get the user name.
+         *
+         * @return the user name.
+         */
+        public string getName()
+        {
+            return mName;
+        }
+    }
 }

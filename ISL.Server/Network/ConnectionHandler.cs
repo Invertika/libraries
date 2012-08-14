@@ -304,7 +304,7 @@ namespace ISL.Server.Network
             //}
         }
 
-        uint getClientCount()
+        public uint getClientCount()
         {
             return (uint)clients.Count;
         }
