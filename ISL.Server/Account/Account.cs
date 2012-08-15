@@ -151,5 +151,56 @@ namespace ISL.Server.Account
         {
             return mLastLogin;
         }
+
+        /**
+         * Set the user name.
+         *
+         * @param name the user name.
+         */
+        public void setName(string name)
+        {
+            mName = name;
+        }
+
+        /**
+         * Set the user password. The password is expected to be already
+         * hashed with a salt.
+         *
+         * The hashing must be performed externally from this class or else
+         * we would end up with the password being hashed many times
+         * (e.g setPassword(getPassword()) would hash the password twice.
+         *
+         * @param password the user password (hashed with salt).
+         */
+        public void setPassword(string password)
+        {
+            mPassword = password;
+        }
+
+        /**
+         * Set the user email address. The email address is expected to be
+         * already hashed.
+         *
+         * @param email the user email address (hashed).
+         */
+        public void setEmail(string email)
+        {
+            mEmail = email;
+        }
+
+        /**
+         * Set the account level.
+         *
+         * @param level the new level.
+         */
+        public void setLevel(int level)
+        {
+            mLevel = (byte)level;
+        }
+
+        public void setRegistrationDate(DateTime time)
+        {
+            mRegistrationDate = time;
+        }
     }
 }
