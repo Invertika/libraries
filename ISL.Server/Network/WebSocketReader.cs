@@ -17,7 +17,6 @@ namespace ISL.Server
             baseStream = stream;
         }
 
-
         public MessageIn ReadMessage()
         {
             byte[] webSocketPacket = ReadWebsocketPackage();
