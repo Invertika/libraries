@@ -202,5 +202,23 @@ namespace ISL.Server.Account
         {
             mRegistrationDate = time;
         }
+
+        /**
+         * Get the user email address (hashed).
+         *
+         * @return the user email address (hashed).
+         */
+        public string getEmail()
+        {
+            return mEmail;
+        }
+
+        /**
+         * Get the time of the account registration.
+         */
+        public DateTime getRegistrationDate()
+        {
+            return mRegistrationDate;
+        }
     }
 }
