@@ -78,39 +78,13 @@ namespace ISL.Server.Network
 		{
 			Logger.Write(LogLevel.Debug, "Sending message {0} to {1}", msg, this);
 
-			//gBandwidth.increaseClientOutput(this, msg.getLength());
-
 			NetworkStream stream=mPeer.GetStream();
-
-			//Länge senden
-			//ushort lengthPackage=(ushort)msg.getLength();
-			//byte[] lengthAsByteArray=BitConverter.GetBytes(lengthPackage);
-			//stream.Write(lengthAsByteArray, 0, (int)lengthAsByteArray.Length);
-
-			//TODO Überprüfung ob Länge größer ushort dann Problem
-			//stream.Write(msg.getData(), 0, (int)msg.getLength());
 
 			string msgString=Websocket.GetWebsocketMessage(msg);
 
 			System.Text.UTF8Encoding enc=new System.Text.UTF8Encoding();
 			byte[] wsMsg=Websocket.GetWebsocketDataFrame(enc.GetBytes(msgString));
 			stream.Write(wsMsg);
-
-			//debug
-			
-			//byte[] newMeg=enc.GetBytes("Hallo Wörld :)");
-
-			//byte[] wsMsg=Websocket.GetWebsocketDataFrame(newMeg);
-			//stream.Write(wsMsg);
-
-			//if(packet)
-			//{
-			//    enet_peer_send(mPeer, channel, packet);
-			//}
-			//else
-			//{
-			//    LOG_ERROR("Failure to create packet!");
-			//}
 		}
 
 		//public void send(MessageOut msg)
