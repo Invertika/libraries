@@ -5,6 +5,7 @@ using ISL.Server.Common;
 using System.IO;
 using ISL.Server.Utilities;
 using System.Text;
+using System.Collections.Generic;
 
 namespace ISL.Server
 {
@@ -17,7 +18,6 @@ namespace ISL.Server
             baseStream = stream;
         }
 
-
         public MessageIn ReadMessage()
         {
             byte[] webSocketPacket = ReadWebsocketPackage();
@@ -25,6 +25,41 @@ namespace ISL.Server
             string message = encoding.GetString(webSocketPacket);
             return InterpretMessage(message);
         }
+
+		/// <summary>
+		/// Splittet das Kommando unter Berücksichtigung der maskierten Doppelpunkte
+		/// </summary>
+		/// <param name="command"></param>
+		/// <returns></returns>
+		List<string> SplitCommand(string command)
+		{
+			List<string> parts=new List<string>();
+			StringBuilder cur=new StringBuilder();
+
+			for(int i=0; i<command.Length; i++)
+			{
+				if(command[i]==':')
+				{
+					if(i+1<command.Length&&command[i+1]==':')
+					{
+						cur.Append(':');
+						i++;
+					}
+					else
+					{
+						parts.Add(cur.ToString());
+						cur.Clear();
+					}
+					continue;
+				}
+
+				cur.Append(command[i]);
+			}
+
+			if(cur.Length!=0) parts.Add(cur.ToString());
+
+			return parts;
+		}
 
         /// <summary>
         /// Interprets the message.
@@ -41,7 +76,7 @@ namespace ISL.Server
             {
                 //TODO Doppelpunkte in Stringnachrichten müssen maskiert werden
                 Logger.Write(LogLevel.Debug, "Interpret message: {0}", message);
-                string[] parts = message.Split(new char[] { ':' });
+				List<string> parts=SplitCommand(message);
 
                 int cmdValue = Int32.Parse(parts [0], System.Globalization.NumberStyles.HexNumber);
                 Protocol command = (Protocol)cmdValue;

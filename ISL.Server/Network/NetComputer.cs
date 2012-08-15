@@ -74,36 +74,44 @@ namespace ISL.Server.Network
             }
         }
 
-        public void send(MessageOut msg)
-        {
-            send(msg, true, 0);
-        }
+		public void send(MessageOut msg)
+		{
+			Logger.Write(LogLevel.Debug, "Sending message {0} to {1}", msg, this);
 
-        public void send(MessageOut msg, bool reliable, uint channel)
-        {
-            Logger.Write(LogLevel.Debug, "Sending message {0} to {1}", msg, this);
+			NetworkStream stream=mPeer.GetStream();
 
-            //gBandwidth.increaseClientOutput(this, msg.getLength());
+			string msgString=Websocket.GetWebsocketMessage(msg);
 
-            NetworkStream stream = mPeer.GetStream();
+			System.Text.UTF8Encoding enc=new System.Text.UTF8Encoding();
+			byte[] wsMsg=Websocket.GetWebsocketDataFrame(enc.GetBytes(msgString));
+			stream.Write(wsMsg);
+		}
 
-            //Länge senden
-            ushort lengthPackage = (ushort)msg.getLength();
-            byte[] lengthAsByteArray = BitConverter.GetBytes(lengthPackage);
-            stream.Write(lengthAsByteArray, 0, (int)lengthAsByteArray.Length); 
+		//public void send(MessageOut msg)
+		//{
+		//    Logger.Write(LogLevel.Debug, "Sending message {0} to {1}", msg, this);
 
-            //TODO Überprüfung ob Länge größer ushort dann Problem
-            stream.Write(msg.getData(), 0, (int)msg.getLength()); 
+		//    //gBandwidth.increaseClientOutput(this, msg.getLength());
 
-            //if(packet)
-            //{
-            //    enet_peer_send(mPeer, channel, packet);
-            //}
-            //else
-            //{
-            //    LOG_ERROR("Failure to create packet!");
-            //}
-        }
+		//    NetworkStream stream = mPeer.GetStream();
+
+		//    //Länge senden
+		//    ushort lengthPackage = (ushort)msg.getLength();
+		//    byte[] lengthAsByteArray = BitConverter.GetBytes(lengthPackage);
+		//    stream.Write(lengthAsByteArray, 0, (int)lengthAsByteArray.Length); 
+
+		//    //TODO Überprüfung ob Länge größer ushort dann Problem
+		//    stream.Write(msg.getData(), 0, (int)msg.getLength()); 
+
+		//    //if(packet)
+		//    //{
+		//    //    enet_peer_send(mPeer, channel, packet);
+		//    //}
+		//    //else
+		//    //{
+		//    //    LOG_ERROR("Failure to create packet!");
+		//    //}
+		//}
 
         //std::ostream &operator <<(std::ostream &os, const NetComputer &comp)
         //{
