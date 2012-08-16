@@ -98,6 +98,16 @@ namespace ISL.Server
                        
                             break;
                         }
+					case Protocol.PAMSG_REGISTER:
+						{
+							writer.Write((Int32)Convert.ToInt32(parts[1])); //Clientversion
+							writer.Write((string)parts[2]); //username
+							writer.Write((string)parts[3]); //password
+							writer.Write((string)parts[4]); //email
+							writer.Write((string)parts[5]); //captcha
+
+							break;
+						}
                     case Protocol.CMSG_SERVER_VERSION_REQUEST:
                         {
                             //Bei diesen Kommandos muss nichts passieren
