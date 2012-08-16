@@ -62,7 +62,7 @@ namespace ISL.Server.Account
             return !mCharacters.ContainsKey(slot);
         }
 
-        void setCharacters(Dictionary<uint, Character> characters)
+        public void setCharacters(Dictionary<uint, Character> characters)
         {
             mCharacters = characters;
         }
