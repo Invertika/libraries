@@ -220,5 +220,17 @@ namespace ISL.Server.Account
         {
             return mRegistrationDate;
         }
+
+        /**
+         * Set the random salt. This salt is sent to the client, so the client
+         * can hash its password with this random salt.
+         * This will help to protect against replay attacks.
+         *
+         * @param the new random salt to be sent out next login
+         */
+        void setRandomSalt(string salt)
+        {
+            mRandomSalt = salt;
+        }
     }
 }
