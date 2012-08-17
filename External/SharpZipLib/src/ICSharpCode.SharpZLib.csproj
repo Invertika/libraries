@@ -38,7 +38,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <Optimize>true</Optimize>
+    <Optimize>True</Optimize>
     <OutputPath>..\bin\</OutputPath>
     <DebugType>none</DebugType>
     <RegisterForComInterop>False</RegisterForComInterop>
@@ -48,8 +48,8 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <Optimize>false</Optimize>
+    <DebugSymbols>True</DebugSymbols>
+    <Optimize>False</Optimize>
     <OutputPath>..\bin\</OutputPath>
     <DebugType>full</DebugType>
     <RegisterForComInterop>False</RegisterForComInterop>
