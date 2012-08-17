@@ -187,9 +187,9 @@ namespace ISL.Server
                         ret += ":" + reader.ReadByte();
                         break;
                     }
-                case Protocol.AGMSG_REGISTER_RESPONSE:
+                case Protocol.APMSG_REGISTER_RESPONSE:
                     {
-
+                        ret += ":" + reader.ReadByte();//Error Code bzw. Register Info Code
                         break;
                     }
                 default:
