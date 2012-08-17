@@ -187,6 +187,11 @@ namespace ISL.Server
                         ret += ":" + reader.ReadByte();
                         break;
                     }
+                case Protocol.APMSG_LOGIN_RNDTRGR_RESPONSE:
+                    {
+                        ret += ":" + reader.ReadString(); //Salt
+                        break;
+                    }
                 case Protocol.APMSG_REGISTER_RESPONSE:
                     {
                         ret += ":" + reader.ReadByte();//Error Code bzw. Register Info Code
