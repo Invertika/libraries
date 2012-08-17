@@ -228,7 +228,7 @@ namespace ISL.Server.Account
          *
          * @param the new random salt to be sent out next login
          */
-        void setRandomSalt(string salt)
+        public void setRandomSalt(string salt)
         {
             mRandomSalt = salt;
         }
