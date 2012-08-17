@@ -26,40 +26,40 @@ namespace ISL.Server
             return InterpretMessage(message);
         }
 
-		/// <summary>
-		/// Splittet das Kommando unter Berücksichtigung der maskierten Doppelpunkte
-		/// </summary>
-		/// <param name="command"></param>
-		/// <returns></returns>
-		List<string> SplitCommand(string command)
-		{
-			List<string> parts=new List<string>();
-			StringBuilder cur=new StringBuilder();
+        /// <summary>
+        /// Splittet das Kommando unter Berücksichtigung der maskierten Doppelpunkte
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        List<string> SplitCommand(string command)
+        {
+            List<string> parts = new List<string>();
+            StringBuilder cur = new StringBuilder();
 
-			for(int i=0; i<command.Length; i++)
-			{
-				if(command[i]==':')
-				{
-					if(i+1<command.Length&&command[i+1]==':')
-					{
-						cur.Append(':');
-						i++;
-					}
-					else
-					{
-						parts.Add(cur.ToString());
-						cur.Clear();
-					}
-					continue;
-				}
+            for (int i=0; i<command.Length; i++)
+            {
+                if (command [i] == ':')
+                {
+                    if (i + 1 < command.Length && command [i + 1] == ':')
+                    {
+                        cur.Append(':');
+                        i++;
+                    } else
+                    {
+                        parts.Add(cur.ToString());
+                        cur.Clear();
+                    }
+                    continue;
+                }
 
-				cur.Append(command[i]);
-			}
+                cur.Append(command [i]);
+            }
 
-			if(cur.Length!=0) parts.Add(cur.ToString());
+            if (cur.Length != 0)
+                parts.Add(cur.ToString());
 
-			return parts;
-		}
+            return parts;
+        }
 
         /// <summary>
         /// Interprets the message.
@@ -76,7 +76,7 @@ namespace ISL.Server
             {
                 //TODO Doppelpunkte in Stringnachrichten müssen maskiert werden
                 Logger.Write(LogLevel.Debug, "Interpret message: {0}", message);
-				List<string> parts=SplitCommand(message);
+                List<string> parts = SplitCommand(message);
 
                 int cmdValue = Int32.Parse(parts [0], System.Globalization.NumberStyles.HexNumber);
                 Protocol command = (Protocol)cmdValue;
@@ -89,6 +89,12 @@ namespace ISL.Server
 
                 switch (command)
                 {
+                    case Protocol.PAMSG_LOGIN_RNDTRGR: //Login Kommando
+                        {
+                            writer.Write((string)parts [1]); //Nutzername
+                       
+                            break;
+                        }
                     case Protocol.PAMSG_LOGIN: //Login Kommando
                         {
                             writer.Write((Int32)Convert.ToInt32(parts [1]));
@@ -98,16 +104,16 @@ namespace ISL.Server
                        
                             break;
                         }
-					case Protocol.PAMSG_REGISTER:
-						{
-							writer.Write((Int32)Convert.ToInt32(parts[1])); //Clientversion
-							writer.Write((string)parts[2]); //username
-							writer.Write((string)parts[3]); //password
-							writer.Write((string)parts[4]); //email
-							writer.Write((string)parts[5]); //captcha
+                    case Protocol.PAMSG_REGISTER:
+                        {
+                            writer.Write((Int32)Convert.ToInt32(parts [1])); //Clientversion
+                            writer.Write((string)parts [2]); //username
+                            writer.Write((string)parts [3]); //password
+                            writer.Write((string)parts [4]); //email
+                            writer.Write((string)parts [5]); //captcha
 
-							break;
-						}
+                            break;
+                        }
                     case Protocol.CMSG_SERVER_VERSION_REQUEST:
                         {
                             //Bei diesen Kommandos muss nichts passieren
