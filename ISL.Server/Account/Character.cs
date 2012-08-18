@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ISL.Server.Utilities;
+using ISL.Server.Common;
 
 namespace ISL.Server.Account
 {
@@ -42,7 +43,7 @@ namespace ISL.Server.Account
         //double getAttrMod(AttributeMap::const_iterator &it) const
         //{ return it.second.modified; }
 
-        //Possessions mPossessions; //!< All the possesions of the character.
+        Possessions mPossessions; //!< All the possesions of the character.
         string mName;        //!< Name of the character.
         int mDatabaseID;          //!< Character database ID.
         uint mCharacterSlot;  //!< Character slot.
@@ -214,6 +215,14 @@ namespace ISL.Server.Account
         public void setPosition(Point p)
         {
             mPos = p;
+        }
+
+        /**
+         * Gets a reference on the possessions.
+         */
+        public Possessions getPossessions()
+        {
+            return mPossessions;
         }
     }
 }
