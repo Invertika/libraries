@@ -48,6 +48,11 @@ namespace ISL.Server.Account
         DateTime mRegistrationDate; /**< Date and time of the account registration */
         DateTime mLastLogin;        /**< Date and time of the last login */
 
+        public Account(int id = -1)
+        {
+            mID = id;
+        }
+
         /// <summary>
         /// Get all the characters.
         /// </summary>
