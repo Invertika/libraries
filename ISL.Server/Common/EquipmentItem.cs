@@ -31,22 +31,23 @@ using System.Text;
 
 namespace ISL.Server.Common
 {
-	public class EquipmentItem
-	{
-		EquipmentItem()
-		{ 
-		}
+    public class EquipmentItem
+    {
+        public EquipmentItem()
+        { 
+        }
 
-		EquipmentItem(uint itemId, uint itemInstance)
-		{
-			this.itemId=itemId;
-			this.itemInstance=itemInstance;
-		}
+        public EquipmentItem(uint itemId, uint itemInstance)
+        {
+            this.itemId = itemId;
+            this.itemInstance = itemInstance;
+        }
 
-		// The item id taken from the item db.
-		uint itemId;
-		// A unique instance number used to separate items when equipping the same
-		// item id multiple times on possible multiple slots.
-		uint itemInstance;
-	}
+        // The item id taken from the item db.
+        public uint itemId;
+		
+        // A unique instance number used to separate items when equipping the same
+        // item id multiple times on possible multiple slots.
+        public uint itemInstance;
+    }
 }

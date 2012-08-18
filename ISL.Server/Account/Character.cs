@@ -30,6 +30,7 @@ using System.Linq;
 using System.Text;
 using ISL.Server.Utilities;
 using ISL.Server.Common;
+using ISL.Server.Game;
 
 namespace ISL.Server.Account
 {
@@ -54,7 +55,7 @@ namespace ISL.Server.Account
         Dictionary<int, int> mExperience; //!< Skill Experience.
         Dictionary<int, int> mStatusEffects; //!< Status Effects
         Dictionary<int, int> mKillCount; //!< Kill Count
-        //Dictionary<int, Special>  mSpecials;
+        Dictionary<int, Special>  mSpecials;
         ushort mMapId;    //!< Map the being is on.
         byte mGender;    //!< Gender of the being.
         byte mHairStyle; //!< Hair style of the being.
@@ -80,7 +81,7 @@ namespace ISL.Server.Account
             mAccount = null;
         }
 
-        void setAccount(Account acc)
+        public void setAccount(Account acc)
         {
             mAccount = acc;
             mAccountID = acc.getID();
@@ -103,7 +104,7 @@ namespace ISL.Server.Account
             return mAccountID;
         }
 
-        void setAccountID(int id)
+        public void setAccountID(int id)
         {
             mAccountID = id;
         }
@@ -168,7 +169,8 @@ namespace ISL.Server.Account
         {
             return mHairStyle;
         }
-        void setHairStyle(int style)
+
+        public void setHairStyle(int style)
         {
             mHairStyle = (byte)style;
         }
@@ -223,6 +225,81 @@ namespace ISL.Server.Account
         public Possessions getPossessions()
         {
             return mPossessions;
+        }
+
+        public void setCharacterPoints(int points)
+        {
+            mCharacterPoints = (short)points;
+        }
+
+        
+        public void setCorrectionPoints(int points)
+        {
+            mCorrectionPoints = (short)points;
+        }
+
+        public void setMapId(int mapId)
+        {
+            mMapId = (ushort)mapId;
+        }
+
+        public void setCharacterSlot(uint slot)
+        {
+            mCharacterSlot = slot;
+        }
+
+        /**
+          * Sets the account level of the user.
+          * @param force ensure the level is not modified by a game server.
+          */
+        public void setAccountLevel(int l, bool force = false)
+        {
+            if (force)
+                mAccountLevel = (byte)l;
+        }
+
+        /** Sets the value of a base attribute of the character. */
+        public void setAttribute(uint id, double value)
+        {
+            mAttributes[id].@base = value;
+        }
+        
+        public void setModAttribute(uint id, double value)
+        {
+            mAttributes[id].modified = value;
+        }
+
+        public void setExperience(int skill, int value)
+        {
+            mExperience[skill] = value;
+        }
+
+        /**
+         * Get / Set a status effects
+         */
+        public void applyStatusEffect(int id, int time)
+        {
+            mStatusEffects[id] = time;
+        }
+
+        public void setKillCount(int monsterId, int kills)
+        {
+            mKillCount[monsterId] = kills;
+        }
+
+        public void giveSpecial(int id, int currentMana)
+        {
+            //mSpecials[id] = SpecialValue(currentMana);
+            Special spec = new Special();
+            spec.currentMana = currentMana;
+            mSpecials[id] = spec;
+            
+            //TODO Gegen Originalimplementation checken
+
+//            if (mSpecials.find(id) == mSpecials.end())
+//            {
+//                mSpecials[id] = SpecialValue(currentMana);
+//            }
         }
     }
 }

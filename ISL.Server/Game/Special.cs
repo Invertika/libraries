@@ -31,15 +31,9 @@ using System.Text;
 
 namespace ISL.Server.Game
 {
-	public class Special
-	{
-		Special()
-		{
-			currentMana=0;
-			neededMana=0;
-		}
-
-		int currentMana;
-		int neededMana;
-	}
+    public class Special
+    {
+        public int currentMana;
+        int neededMana;
+    }
 }

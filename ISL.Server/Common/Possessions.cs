@@ -27,7 +27,7 @@ namespace ISL.Server.Common
         /**
      * Should be done only at character serialization and storage load time.
      */
-        void setEquipment(Dictionary< uint, EquipmentItem > equipData)
+        public void setEquipment(Dictionary< uint, EquipmentItem > equipData)
         { 
             //equipSlots.swap(equipData); }
 
@@ -37,7 +37,7 @@ namespace ISL.Server.Common
             }
         }
 
-        void setInventory(Dictionary< uint, InventoryItem > inventoryData)
+        public void setInventory(Dictionary< uint, InventoryItem > inventoryData)
         { 
             //inventory.swap(inventoryData); }
 

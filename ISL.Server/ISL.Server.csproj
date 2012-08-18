@@ -80,6 +80,7 @@
     <Compile Include="Account\Account.cs" />
     <Compile Include="Common\Possessions.cs" />
     <Compile Include="Common\InventoryItem.cs" />
+    <Compile Include="Account\SpecialValue.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
