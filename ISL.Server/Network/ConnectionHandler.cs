@@ -162,6 +162,8 @@ namespace ISL.Server.Network
 
             WebSocketReader reader = new WebSocketReader(stream);
 
+            bool closed = false;
+
             while (true) //TODO Abbruchkriterium definieren, evt den Close Opcode im Websocket beachten?
             {
                 MessageIn msg = reader.ReadMessage();

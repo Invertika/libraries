@@ -97,10 +97,9 @@ namespace ISL.Server
                         }
                     case Protocol.PAMSG_LOGIN: //Login Kommando
                         {
-                            writer.Write((Int32)Convert.ToInt32(parts [1]));
+                            writer.Write((Int32)Convert.ToInt32(parts [1]));  //Clientversion
                             writer.Write((string)parts [2]);
                             writer.Write((string)parts [3]);
-                            writer.Write((byte)Convert.ToByte(parts [4]));
                        
                             break;
                         }
@@ -212,6 +211,13 @@ namespace ISL.Server
                 {
                     data [i] = (byte)(data [i] ^ maskKeys [i % 4]);
                 }
+            }
+
+            ushort closeCode = 0;
+
+            if (closeCode != 0)
+            {
+                int debug = 555;
             }
 
             return data;
