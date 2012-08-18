@@ -189,12 +189,17 @@ namespace ISL.Server
                     }
                 case Protocol.APMSG_LOGIN_RNDTRGR_RESPONSE:
                     {
-                        ret += ":" + reader.ReadString(); //Salt
+                        ret += ":" + reader.ReadString().Replace(":", "::"); //Salt
                         break;
                     }
                 case Protocol.APMSG_REGISTER_RESPONSE:
                     {
                         ret += ":" + reader.ReadByte();//Error Code bzw. Register Info Code
+                        break;
+                    }
+                case Protocol.XXMSG_INVALID:
+                    {
+                        //Bei diesen Befehlen gibt es keien zusätzlichen Parameter
                         break;
                     }
                 default:
