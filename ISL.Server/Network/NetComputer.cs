@@ -32,6 +32,7 @@ using System.Net.Sockets;
 using System.Net;
 using ISL.Server.Utilities;
 using CSCL;
+using System.IO;
 
 namespace ISL.Server.Network
 {
@@ -85,7 +86,18 @@ namespace ISL.Server.Network
 
             System.Text.UTF8Encoding enc = new System.Text.UTF8Encoding();
             byte[] wsMsg = Websocket.GetWebsocketDataFrame(enc.GetBytes(msgString));
-            stream.Write(wsMsg);
+
+			try
+			{
+				stream.Write(wsMsg);
+			}
+			catch(IOException ex)
+			{
+				if(((SocketException)(ex.InnerException)).ErrorCode==10053)
+				{
+					Logger.Write(LogLevel.Warning, "An established connection was aborted by the software in your host machine.");
+				}
+			}
         }
 
         //public void send(MessageOut msg)
