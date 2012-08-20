@@ -197,6 +197,11 @@ namespace ISL.Server
                         ret += ":" + reader.ReadByte();//Error Code bzw. Register Info Code
                         break;
                     }
+				case Protocol.APMSG_CHAR_SELECT_RESPONSE:
+					{
+						ret+=":"+reader.ReadByte(); //ErrorMessage Code
+						break;
+					}
                 case Protocol.XXMSG_INVALID:
                     {
                         //Bei diesen Befehlen gibt es keien zusätzlichen Parameter
