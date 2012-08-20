@@ -38,8 +38,6 @@ namespace ISL.Server.Common
 
 		public const int WORLD_TICK_MS=100;
 
-		public const int MAGIC_TOKEN_LENGTH=32; //TODO muss auf die Länge von Varios.GetUniqueID angepasst werden
-
 		public const int DEFAULT_TILE_LENGTH=32; //Default tile length in pixel
 	}
 }
