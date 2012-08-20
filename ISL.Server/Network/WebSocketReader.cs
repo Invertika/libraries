@@ -113,6 +113,11 @@ namespace ISL.Server
 
                             break;
                         }
+					case Protocol.PAMSG_CHAR_SELECT:
+						{
+							writer.Write((Int32)Convert.ToInt32(parts[1])); //Ausgewählter Charakter
+							break;
+						}
                     case Protocol.CMSG_SERVER_VERSION_REQUEST:
                         {
                             //Bei diesen Kommandos muss nichts passieren
