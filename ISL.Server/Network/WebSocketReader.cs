@@ -15,15 +15,13 @@ namespace ISL.Server
 
         public WebSocketReader(NetworkStream stream)
         {
-            baseStream = stream;
+            baseStream=stream;
         }
 
         public MessageIn ReadMessage()
         {
-            byte[] webSocketPacket = ReadWebsocketPackage();
-            UTF8Encoding encoding = new UTF8Encoding();
-            string message = encoding.GetString(webSocketPacket);
-            return InterpretMessage(message);
+            byte[] webSocketPacket=ReadWebsocketPackage();
+            return new MessageIn(webSocketPacket);
         }
 
         /// <summary>
@@ -33,18 +31,19 @@ namespace ISL.Server
         /// <returns></returns>
         List<string> SplitCommand(string command)
         {
-            List<string> parts = new List<string>();
-            StringBuilder cur = new StringBuilder();
+            List<string> parts=new List<string>();
+            StringBuilder cur=new StringBuilder();
 
-            for (int i=0; i<command.Length; i++)
+            for(int i=0;i<command.Length;i++)
             {
-                if (command [i] == ':')
+                if(command[i]==':')
                 {
-                    if (i + 1 < command.Length && command [i + 1] == ':')
+                    if(i+1<command.Length&&command[i+1]==':')
                     {
                         cur.Append(':');
                         i++;
-                    } else
+                    }
+                    else
                     {
                         parts.Add(cur.ToString());
                         cur.Clear();
@@ -52,177 +51,91 @@ namespace ISL.Server
                     continue;
                 }
 
-                cur.Append(command [i]);
+                cur.Append(command[i]);
             }
 
-            if (cur.Length != 0)
+            if(cur.Length!=0)
                 parts.Add(cur.ToString());
 
             return parts;
         }
 
-        /// <summary>
-        /// Interprets the message.
-        /// </summary>
-        /// <returns>
-        /// The message.
-        /// </returns>
-        /// <param name='message'>
-        /// Message.
-        /// </param>
-        MessageIn InterpretMessage(string message)
-        {
-            try
-            {
-                //TODO Doppelpunkte in Stringnachrichten müssen maskiert werden
-                Logger.Write(LogLevel.Debug, "Interpret message: {0}", message);
-                List<string> parts = SplitCommand(message);
-
-                int cmdValue = Int32.Parse(parts [0], System.Globalization.NumberStyles.HexNumber);
-                Protocol command = (Protocol)cmdValue;
-
-                MemoryStream stream = new MemoryStream();
-                BinaryWriter writer = new BinaryWriter(stream);
-
-                //Bytepaket zusammenbauen
-                writer.Write((UInt16)cmdValue);
-
-                switch (command)
-                {
-                    case Protocol.PAMSG_LOGIN_RNDTRGR: //Login Kommando
-                        {
-                            writer.Write((string)parts [1]); //Nutzername
-                       
-                            break;
-                        }
-                    case Protocol.PAMSG_LOGIN: //Login Kommando
-                        {
-                            writer.Write((Int32)Convert.ToInt32(parts [1]));  //Clientversion
-                            writer.Write((string)parts [2]);
-                            writer.Write((string)parts [3]);
-                       
-                            break;
-                        }
-                    case Protocol.PAMSG_REGISTER:
-                        {
-                            writer.Write((Int32)Convert.ToInt32(parts [1])); //Clientversion
-                            writer.Write((string)parts [2]); //username
-                            writer.Write((string)parts [3]); //password
-                            writer.Write((string)parts [4]); //email
-                            writer.Write((string)parts [5]); //captcha
-
-                            break;
-                        }
-					case Protocol.PAMSG_CHAR_SELECT:
-						{
-							writer.Write((Int32)Convert.ToInt32(parts[1])); //Ausgewählter Charakter
-							break;
-						}
-                    case Protocol.CMSG_SERVER_VERSION_REQUEST:
-                        {
-                            //Bei diesen Kommandos muss nichts passieren
-                            //da sie nur aus der ID bestehen.
-                            break;
-                        }
-                    default:
-                        {
-                            Logger.Write(LogLevel.Warning, "Unimplemended command ({0}) in function InterpretMessage.", cmdValue);
-                            break;
-                        }
-                }
-
-                return new MessageIn(stream.ToArray());
-            } catch
-            {
-                //0x7FFF XXX Invalid Message in die Message schreiben
-                Logger.Write(LogLevel.Warning, "Invalid message recieved.");
-
-                MemoryStream stream = new MemoryStream();
-                BinaryWriter writer = new BinaryWriter(stream);
-
-                //Bytepaket zusammenbauen
-                writer.Write((UInt16)Protocol.XXMSG_INVALID);
-
-                return new MessageIn(stream.ToArray());
-            }
-        }
-
         byte[] ReadWebsocketPackage()
         {
-            byte[] buffer = new byte[2];
+            byte[] buffer=new byte[2];
             baseStream.Read(buffer, 0, 2);
 
-            bool fin = (buffer [0] & 0x80) == 0x80;
+            bool fin=(buffer[0]&0x80)==0x80;
 
-            bool rsv1 = (buffer [0] & 0x40) == 0x40;
-            bool rsv2 = (buffer [0] & 0x20) == 0x20;
-            bool rsv3 = (buffer [0] & 0x10) == 0x10;
+            bool rsv1=(buffer[0]&0x40)==0x40;
+            bool rsv2=(buffer[0]&0x20)==0x20;
+            bool rsv3=(buffer[0]&0x10)==0x10;
 
-            int opCode = ((buffer [0] & 0x8) | (buffer [0] & 0x4) | (buffer [0] & 0x2) | (buffer [0] & 0x1));
+            int opCode=((buffer[0]&0x8)|(buffer[0]&0x4)|(buffer[0]&0x2)|(buffer[0]&0x1));
 
-            bool mask = (buffer [1] & 0x80) == 0x80;
+            bool mask=(buffer[1]&0x80)==0x80;
 
-            byte payload = (byte)((buffer [1] & 0x40) | (buffer [1] & 0x20) | (buffer [1] & 0x10) | (buffer [1] & 0x8) | (buffer [1] & 0x4) | (buffer [1] & 0x2) | (buffer [1] & 0x1));
-            ulong length = 0;
+            byte payload=(byte)((buffer[1]&0x40)|(buffer[1]&0x20)|(buffer[1]&0x10)|(buffer[1]&0x8)|(buffer[1]&0x4)|(buffer[1]&0x2)|(buffer[1]&0x1));
+            ulong length=0;
 
-            switch (payload)
+            switch(payload)
             {
                 case 126:
                     {
-                        buffer = new byte[2];
+                        buffer=new byte[2];
                         baseStream.Read(buffer, 0, 2);
-                        byte[] bytesUShort = buffer;
-                        if (bytesUShort != null)
+                        byte[] bytesUShort=buffer;
+                        if(bytesUShort!=null)
                         {
                             Array.Reverse(bytesUShort);
-                            length = BitConverter.ToUInt16(bytesUShort, 0);
+                            length=BitConverter.ToUInt16(bytesUShort, 0);
                         }
                         break;
                     }
                 case 127:
                     {
-                        buffer = new byte[8];
+                        buffer=new byte[8];
                         baseStream.Read(buffer, 0, 8);
-                        byte[] bytesULong = buffer;
-                        if (bytesULong != null)
+                        byte[] bytesULong=buffer;
+                        if(bytesULong!=null)
                         {
                             Array.Reverse(bytesULong);
-                            length = BitConverter.ToUInt16(bytesULong, 0);
+                            length=BitConverter.ToUInt16(bytesULong, 0);
                         }
                         break;
                     }
                 default:
                     {
-                        length = payload;
+                        length=payload;
                         break;
                     }
             }
 
-            byte[] maskKeys = null;
-            if (mask)
+            byte[] maskKeys=null;
+            if(mask)
             {
-                buffer = new byte[4];
+                buffer=new byte[4];
                 baseStream.Read(buffer, 0, 4);
-                maskKeys = buffer;
+                maskKeys=buffer;
             }
 
-            buffer = new byte[length];
+            buffer=new byte[length];
             baseStream.Read(buffer, 0, (int)length);
-            byte[] data = buffer;
+            byte[] data=buffer;
 
-            if (mask)
+            if(mask)
             {
-                for (int i=0; i<data.Length; ++i)
+                for(int i=0;i<data.Length;++i)
                 {
-                    data [i] = (byte)(data [i] ^ maskKeys [i % 4]);
+                    data[i]=(byte)(data[i]^maskKeys[i%4]);
                 }
             }
 
-            ushort closeCode = 0;
+            ushort closeCode=0;
 
-            if (closeCode != 0)
+            if(closeCode!=0)
             {
-                int debug = 555;
+                int debug=555;
             }
 
             return data;
