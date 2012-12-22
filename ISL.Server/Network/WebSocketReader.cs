@@ -24,42 +24,6 @@ namespace ISL.Server
             return new MessageIn(webSocketPacket);
         }
 
-        /// <summary>
-        /// Splittet das Kommando unter Berücksichtigung der maskierten Doppelpunkte
-        /// </summary>
-        /// <param name="command"></param>
-        /// <returns></returns>
-        List<string> SplitCommand(string command)
-        {
-            List<string> parts=new List<string>();
-            StringBuilder cur=new StringBuilder();
-
-            for(int i=0;i<command.Length;i++)
-            {
-                if(command[i]==':')
-                {
-                    if(i+1<command.Length&&command[i+1]==':')
-                    {
-                        cur.Append(':');
-                        i++;
-                    }
-                    else
-                    {
-                        parts.Add(cur.ToString());
-                        cur.Clear();
-                    }
-                    continue;
-                }
-
-                cur.Append(command[i]);
-            }
-
-            if(cur.Length!=0)
-                parts.Add(cur.ToString());
-
-            return parts;
-        }
-
         byte[] ReadWebsocketPackage()
         {
             byte[] buffer=new byte[2];
