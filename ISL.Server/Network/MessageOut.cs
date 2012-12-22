@@ -37,6 +37,7 @@ namespace ISL.Server.Network
     {
         MemoryStream data;
         BinaryWriter writer;
+        Protocol ID;
 
         public MessageOut()
         {
@@ -48,6 +49,7 @@ namespace ISL.Server.Network
         {
             data=new MemoryStream();
             writer=new BinaryWriter(data);
+            ID=id;
 
             writer.Write((UInt16)id);
         }
@@ -92,6 +94,11 @@ namespace ISL.Server.Network
         public uint getLength()
         { 
             return (uint)data.Length; 
+        }
+
+        public override string ToString()
+        {
+            return ID.ToString();
         }
     }
 }
