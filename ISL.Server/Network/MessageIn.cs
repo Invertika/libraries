@@ -97,8 +97,6 @@ namespace ISL.Server.Network
 
             UTF8Encoding encoding=new UTF8Encoding();
             return encoding.GetString(bytesOfString);
-
-            //return reader.ReadString();
         }
 
         public override string ToString()

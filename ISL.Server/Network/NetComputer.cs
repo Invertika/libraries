@@ -50,7 +50,7 @@ namespace ISL.Server.Network
 
         public NetComputer(TcpClient peer)
         {
-            mPeer = peer;
+            mPeer=peer;
         }
 
         bool isConnected()
@@ -61,7 +61,7 @@ namespace ISL.Server.Network
 
         public void disconnect(MessageOut msg)
         {
-            if (isConnected())
+            if(isConnected())
             {
                 ///* ChannelID 0xFF is the channel used by enet_peer_disconnect.
                 // * If a reliable packet is send over this channel ENet guaranties
@@ -80,24 +80,21 @@ namespace ISL.Server.Network
         {
             Logger.Write(LogLevel.Debug, "Sending message {0} to {1}", msg, this);
 
-            NetworkStream stream = mPeer.GetStream();
+            NetworkStream stream=mPeer.GetStream();
 
-            string msgString = Websocket.GetWebsocketMessage(msg);
+            byte[] wsMsg=Websocket.GetWebsocketDataFrame(msg.getData());
 
-            System.Text.UTF8Encoding enc = new System.Text.UTF8Encoding();
-            byte[] wsMsg = Websocket.GetWebsocketDataFrame(enc.GetBytes(msgString));
-
-			try
-			{
-				stream.Write(wsMsg);
-			}
-			catch(IOException ex)
-			{
-				if(((SocketException)(ex.InnerException)).ErrorCode==10053)
-				{
-					Logger.Write(LogLevel.Warning, "An established connection was aborted by the software in your host machine.");
-				}
-			}
+            try
+            {
+                stream.Write(wsMsg);
+            }
+            catch(IOException ex)
+            {
+                if(((SocketException)(ex.InnerException)).ErrorCode==10053)
+                {
+                    Logger.Write(LogLevel.Warning, "An established connection was aborted by the software in your host machine.");
+                }
+            }
         }
 
         //public void send(MessageOut msg)
@@ -147,13 +144,13 @@ namespace ISL.Server.Network
 
         public IPAddress getIP()
         {
-            IPEndPoint remoteEndPoint = (IPEndPoint)(mPeer.Client.RemoteEndPoint);
+            IPEndPoint remoteEndPoint=(IPEndPoint)(mPeer.Client.RemoteEndPoint);
             return remoteEndPoint.Address;
         }
 
         public override string ToString()
         {
-            IPEndPoint remoteEndPoint = (IPEndPoint)(mPeer.Client.RemoteEndPoint);
+            IPEndPoint remoteEndPoint=(IPEndPoint)(mPeer.Client.RemoteEndPoint);
             return String.Format("{0}:{1}", remoteEndPoint.Address, remoteEndPoint.Port);
         }
     }

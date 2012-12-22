@@ -18,56 +18,58 @@ namespace ISL.Server
     /// </summary>
     public static class Websocket
     {
-        static string guid = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
-        static SHA1 sha1 = SHA1CryptoServiceProvider.Create();
+        static string guid="258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
+        static SHA1 sha1=SHA1CryptoServiceProvider.Create();
 
         public static void OnAccept(TcpClient tcpClient)
         {
-            byte[] buffer = new byte[1024];
+            byte[] buffer=new byte[1024];
 
             try
             {
-                NetworkStream stream = tcpClient.GetStream();
-                int readed = stream.Read(buffer, 0, buffer.Length);
+                NetworkStream stream=tcpClient.GetStream();
+                int readed=stream.Read(buffer, 0, buffer.Length);
 
-                string headerResponse = (System.Text.Encoding.UTF8.GetString(buffer)).Substring(0, readed);
+                string headerResponse=(System.Text.Encoding.UTF8.GetString(buffer)).Substring(0, readed);
 
-                if (stream != null)
+                if(stream!=null)
                 {
                     //Handshaking and managing ClientSocket
-                    string key = headerResponse.Replace("ey:", "`")
-							  .Split('`') [1]                     // dGhlIHNhbXBsZSBub25jZQ== \r\n .......
-							  .Replace("\r", "").Split('\n') [0]  // dGhlIHNhbXBsZSBub25jZQ==
+                    string key=headerResponse.Replace("ey:", "`")
+							  .Split('`')[1]                     // dGhlIHNhbXBsZSBub25jZQ== \r\n .......
+							  .Replace("\r", "").Split('\n')[0]  // dGhlIHNhbXBsZSBub25jZQ==
 							  .Trim();
 
                     // key should now equal dGhlIHNhbXBsZSBub25jZQ==
-                    string acceptKey = AcceptKey(ref key);
+                    string acceptKey=AcceptKey(ref key);
 
-                    string newLine = "\r\n";
+                    string newLine="\r\n";
 
-                    string response = "HTTP/1.1 101 Switching Protocols" + newLine
-                        + "Upgrade: websocket" + newLine
-                        + "Connection: Upgrade" + newLine
-                        + "Sec-WebSocket-Accept: " + acceptKey + newLine + newLine;
+                    string response="HTTP/1.1 101 Switching Protocols"+newLine
+                        +"Upgrade: websocket"+newLine
+                        +"Connection: Upgrade"+newLine
+                        +"Sec-WebSocket-Accept: "+acceptKey+newLine+newLine;
                     //+ "Sec-WebSocket-Protocol: chat, superchat" + newLine
                     //+ "Sec-WebSocket-Version: 13" + newLine;
 
                     // which one should I use? none of them fires the onopen method
-                    byte[] responseArray = System.Text.Encoding.UTF8.GetBytes(response);
+                    byte[] responseArray=System.Text.Encoding.UTF8.GetBytes(response);
                     stream.Write(responseArray, 0, responseArray.Length);
                 }
-            } catch (SocketException exception)
+            }
+            catch(SocketException exception)
             {
                 throw exception;
-            } finally
+            }
+            finally
             {
             }
         }
 
         static string AcceptKey(ref string key)
         {
-            string longKey = key + guid;
-            byte[] hashBytes = ComputeHash(longKey);
+            string longKey=key+guid;
+            byte[] hashBytes=ComputeHash(longKey);
             return Convert.ToBase64String(hashBytes);
         }
 
@@ -85,136 +87,94 @@ namespace ISL.Server
         {
             try
             {
-                ulong headerLength = 2;
-                byte[] data = binary;
+                ulong headerLength=2;
+                byte[] data=binary;
 
-                bool mask = false;
-                byte[] maskKeys = null;
+                bool mask=false;
+                byte[] maskKeys=null;
 
-                if (mask)
+                if(mask)
                 {
-                    headerLength += 4;
-                    data = (byte[])data.Clone();
+                    headerLength+=4;
+                    data=(byte[])data.Clone();
 
-                    Random random = new Random(Environment.TickCount);
-                    maskKeys = new byte[4];
-                    for (int i=0; i<4; ++i)
+                    Random random=new Random(Environment.TickCount);
+                    maskKeys=new byte[4];
+                    for(int i=0;i<4;++i)
                     {
-                        maskKeys [i] = (byte)random.Next(byte.MinValue, byte.MaxValue);
+                        maskKeys[i]=(byte)random.Next(byte.MinValue, byte.MaxValue);
                     }
 
-                    for (int i=0; i<data.Length; ++i)
+                    for(int i=0;i<data.Length;++i)
                     {
-                        data [i] = (byte)(data [i] ^ maskKeys [i % 4]);
+                        data[i]=(byte)(data[i]^maskKeys[i%4]);
                     }
                 }
 
                 byte payload;
-                if (data.Length >= 65536)
+                if(data.Length>=65536)
                 {
-                    headerLength += 8;
-                    payload = 127;
-                } else if (data.Length >= 126)
+                    headerLength+=8;
+                    payload=127;
+                }
+                else if(data.Length>=126)
                 {
-                    headerLength += 2;
-                    payload = 126;
-                } else
+                    headerLength+=2;
+                    payload=126;
+                }
+                else
                 {
-                    payload = (byte)data.Length;
+                    payload=(byte)data.Length;
                 }
 
-                byte[] header = new byte[headerLength];
+                byte[] header=new byte[headerLength];
 
-                header [0] = 0x80 | 0x1;
-                if (mask)
+                header[0]=0x80|0x1;
+                if(mask)
                 {
-                    header [1] = 0x80;
+                    header[1]=0x80;
                 }
-                header [1] = (byte)(header [1] | payload & 0x40 | payload & 0x20 | payload & 0x10 | payload & 0x8 | payload & 0x4 | payload & 0x2 | payload & 0x1);
+                header[1]=(byte)(header[1]|payload&0x40|payload&0x20|payload&0x10|payload&0x8|payload&0x4|payload&0x2|payload&0x1);
 
-                if (payload == 126)
+                if(payload==126)
                 {
-                    byte[] lengthBytes = BitConverter.GetBytes((ushort)data.Length).Reverse().ToArray();
-                    header [2] = lengthBytes [0];
-                    header [3] = lengthBytes [1];
+                    byte[] lengthBytes=BitConverter.GetBytes((ushort)data.Length).Reverse().ToArray();
+                    header[2]=lengthBytes[0];
+                    header[3]=lengthBytes[1];
 
-                    if (mask)
+                    if(mask)
                     {
-                        for (int i=0; i<4; ++i)
+                        for(int i=0;i<4;++i)
                         {
-                            header [i + 4] = maskKeys [i];
+                            header[i+4]=maskKeys[i];
                         }
                     }
-                } else if (payload == 127)
+                }
+                else if(payload==127)
                 {
-                    byte[] lengthBytes = BitConverter.GetBytes((ulong)data.Length).Reverse().ToArray();
-                    for (int i=0; i<8; ++i)
+                    byte[] lengthBytes=BitConverter.GetBytes((ulong)data.Length).Reverse().ToArray();
+                    for(int i=0;i<8;++i)
                     {
-                        header [i + 2] = lengthBytes [i];
+                        header[i+2]=lengthBytes[i];
                     }
-                    if (mask)
+                    if(mask)
                     {
-                        for (int i=0; i<4; ++i)
+                        for(int i=0;i<4;++i)
                         {
-                            header [i + 10] = maskKeys [i];
+                            header[i+10]=maskKeys[i];
                         }
                     }
                 }
 
                 return header.Concat(data).ToArray();
 
-            } catch (Exception ex)
+            }
+            catch(Exception ex)
             {
                 Logger.Write(LogLevel.Error, "Websocket transport protocol Send exception: {0}", ex);
             }
 
             return null;
-        }
-
-        public static string GetWebsocketMessage(MessageOut msg)
-        {
-            string ret = "";
-
-            MemoryStream ms = new MemoryStream(msg.getData());
-            BinaryReader reader = new BinaryReader(ms);
-            int cmd = reader.ReadInt16();
-            ret += String.Format("{0:x}", cmd);
-
-            switch ((Protocol)cmd)
-            {
-                case Protocol.APMSG_LOGIN_RESPONSE:
-                    {
-                        ret += ":" + reader.ReadByte();
-                        break;
-                    }
-                case Protocol.APMSG_LOGIN_RNDTRGR_RESPONSE:
-                    {
-                        ret += ":" + reader.ReadString().Replace(":", "::"); //Salt
-                        break;
-                    }
-                case Protocol.APMSG_REGISTER_RESPONSE:
-                    {
-                        ret += ":" + reader.ReadByte();//Error Code bzw. Register Info Code
-                        break;
-                    }
-				case Protocol.APMSG_CHAR_SELECT_RESPONSE:
-					{
-						ret+=":"+reader.ReadByte(); //ErrorMessage Code
-						break;
-					}
-                case Protocol.XXMSG_INVALID:
-                    {
-                        //Bei diesen Befehlen gibt es keien zusätzlichen Parameter
-                        break;
-                    }
-                default:
-                    {
-                        Logger.Write(LogLevel.Warning, "Unimplemended command ({0}) in function GetWebsocketMessage.", cmd);
-                        break;
-                    }
-            }
-
-            return ret;
         }
     }
 }
