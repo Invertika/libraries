@@ -52,7 +52,7 @@ namespace ISL.Server.Account
         Account mAccount;        //!< Account owning the character.
         Point mPos;               //!< Position the being is at.
         public Dictionary<uint, AttributeValue> mAttributes; //!< Attributes.
-        Dictionary<int, int> mExperience; //!< Skill Experience.
+        public Dictionary<int, int> mExperience; //!< Skill Experience.
         Dictionary<int, int> mStatusEffects; //!< Status Effects
         Dictionary<int, int> mKillCount; //!< Kill Count
         Dictionary<int, Special>  mSpecials;
@@ -73,19 +73,19 @@ namespace ISL.Server.Account
         //template< class T >
         //friend void serializeCharacterData(const T &data, MessageOut &msg);
 
-        public Character(string name, int id)
+        public Character(string name, int id=-1)
         {
-            mName = name;
-            mDatabaseID = id;
-            mAccountID = -1;
-            mAccount = null;
+            mName=name;
+            mDatabaseID=id;
+            mAccountID=-1;
+            mAccount=null;
         }
 
         public void setAccount(Account acc)
         {
-            mAccount = acc;
-            mAccountID = acc.getID();
-            mAccountLevel = (byte)acc.getLevel();
+            mAccount=acc;
+            mAccountID=acc.getID();
+            mAccountLevel=(byte)acc.getLevel();
         }
 
         /**
@@ -106,7 +106,7 @@ namespace ISL.Server.Account
 
         public void setAccountID(int id)
         {
-            mAccountID = id;
+            mAccountID=id;
         }
 
         /**
@@ -119,7 +119,7 @@ namespace ISL.Server.Account
 
         void setName(string name)
         {
-            mName = name;
+            mName=name;
         }
 
         /**
@@ -130,9 +130,9 @@ namespace ISL.Server.Account
             return mDatabaseID;
         }
 
-        void setDatabaseID(int id)
+        public void setDatabaseID(int id)
         {
-            mDatabaseID = id;
+            mDatabaseID=id;
         }
 
         /**
@@ -159,7 +159,7 @@ namespace ISL.Server.Account
 
         public void setGender(int gender)
         {
-            mGender = (byte)gender;
+            mGender=(byte)gender;
         }
 
         /**
@@ -172,7 +172,7 @@ namespace ISL.Server.Account
 
         public void setHairStyle(int style)
         {
-            mHairStyle = (byte)style;
+            mHairStyle=(byte)style;
         }
 
         /**
@@ -184,7 +184,7 @@ namespace ISL.Server.Account
         }
         public void setHairColor(int color)
         {
-            mHairColor = (byte)color;
+            mHairColor=(byte)color;
         }
 
         /**
@@ -196,7 +196,7 @@ namespace ISL.Server.Account
         }
         public void setLevel(int level)
         {
-            mLevel = (byte)level;
+            mLevel=(byte)level;
         }
 
         public int getCharacterPoints()
@@ -216,7 +216,7 @@ namespace ISL.Server.Account
 
         public void setPosition(Point p)
         {
-            mPos = p;
+            mPos=p;
         }
 
         /**
@@ -229,23 +229,23 @@ namespace ISL.Server.Account
 
         public void setCharacterPoints(int points)
         {
-            mCharacterPoints = (short)points;
+            mCharacterPoints=(short)points;
         }
 
         
         public void setCorrectionPoints(int points)
         {
-            mCorrectionPoints = (short)points;
+            mCorrectionPoints=(short)points;
         }
 
         public void setMapId(int mapId)
         {
-            mMapId = (ushort)mapId;
+            mMapId=(ushort)mapId;
         }
 
         public void setCharacterSlot(uint slot)
         {
-            mCharacterSlot = slot;
+            mCharacterSlot=slot;
         }
 
         /**
@@ -254,24 +254,24 @@ namespace ISL.Server.Account
           */
         public void setAccountLevel(int l, bool force = false)
         {
-            if (force)
-                mAccountLevel = (byte)l;
+            if(force)
+                mAccountLevel=(byte)l;
         }
 
         /** Sets the value of a base attribute of the character. */
         public void setAttribute(uint id, double value)
         {
-            mAttributes[id].@base = value;
+            mAttributes[id].@base=value;
         }
         
         public void setModAttribute(uint id, double value)
         {
-            mAttributes[id].modified = value;
+            mAttributes[id].modified=value;
         }
 
         public void setExperience(int skill, int value)
         {
-            mExperience[skill] = value;
+            mExperience[skill]=value;
         }
 
         /**
@@ -279,20 +279,20 @@ namespace ISL.Server.Account
          */
         public void applyStatusEffect(int id, int time)
         {
-            mStatusEffects[id] = time;
+            mStatusEffects[id]=time;
         }
 
         public void setKillCount(int monsterId, int kills)
         {
-            mKillCount[monsterId] = kills;
+            mKillCount[monsterId]=kills;
         }
 
         public void giveSpecial(int id, int currentMana)
         {
             //mSpecials[id] = SpecialValue(currentMana);
-            Special spec = new Special();
-            spec.currentMana = currentMana;
-            mSpecials[id] = spec;
+            Special spec=new Special();
+            spec.currentMana=currentMana;
+            mSpecials[id]=spec;
             
             //TODO Gegen Originalimplementation checken
 
@@ -300,6 +300,11 @@ namespace ISL.Server.Account
 //            {
 //                mSpecials[id] = SpecialValue(currentMana);
 //            }
+        }
+
+        public Point getPosition()
+        {
+            return mPos;
         }
     }
 }
