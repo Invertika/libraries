@@ -51,7 +51,7 @@ namespace ISL.Server.Account
         int mAccountID;           //!< Account ID of the owner.
         Account mAccount;        //!< Account owning the character.
         Point mPos;               //!< Position the being is at.
-        public Dictionary<uint, AttributeValue> mAttributes; //!< Attributes.
+        public Dictionary<uint, AttributeValue> mAttributes=new Dictionary<uint, AttributeValue>(); //!< Attributes.
         public Dictionary<int, int> mExperience; //!< Skill Experience.
         Dictionary<int, int> mStatusEffects; //!< Status Effects
         Dictionary<int, int> mKillCount; //!< Kill Count
