@@ -44,7 +44,7 @@ namespace ISL.Server.Account
         //double getAttrMod(AttributeMap::const_iterator &it) const
         //{ return it.second.modified; }
 
-        Possessions mPossessions; //!< All the possesions of the character.
+        Possessions mPossessions=new Possessions(); //!< All the possesions of the character.
         string mName;        //!< Name of the character.
         int mDatabaseID;          //!< Character database ID.
         uint mCharacterSlot;  //!< Character slot.
@@ -52,7 +52,7 @@ namespace ISL.Server.Account
         Account mAccount;        //!< Account owning the character.
         Point mPos;               //!< Position the being is at.
         public Dictionary<uint, AttributeValue> mAttributes=new Dictionary<uint, AttributeValue>(); //!< Attributes.
-        public Dictionary<int, int> mExperience; //!< Skill Experience.
+        public Dictionary<int, int> mExperience=new Dictionary<int, int>(); //!< Skill Experience.
         Dictionary<int, int> mStatusEffects; //!< Status Effects
         Dictionary<int, int> mKillCount; //!< Kill Count
         Dictionary<int, Special>  mSpecials;
