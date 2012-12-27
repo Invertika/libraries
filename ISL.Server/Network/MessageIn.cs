@@ -62,6 +62,11 @@ namespace ISL.Server.Network
             mId=(Protocol)readInt16();
         }
 
+        public uint getLength()
+        { 
+            return (uint)mLength; 
+        }
+
         /**
  * Returns the message ID.
  */
