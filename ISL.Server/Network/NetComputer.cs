@@ -55,24 +55,14 @@ namespace ISL.Server.Network
 
         bool isConnected()
         {
-            // return (mPeer.state == ENET_PEER_STATE_CONNECTED);
-            return true;
+            return mPeer.Connected;
         }
 
         public void disconnect(MessageOut msg)
         {
             if(isConnected())
             {
-                ///* ChannelID 0xFF is the channel used by enet_peer_disconnect.
-                // * If a reliable packet is send over this channel ENet guaranties
-                // * that the message is recieved before the disconnect request.
-                // */
-                //send(msg, ENET_PACKET_FLAG_RELIABLE, 0xFF);
-
-                ///* ENet generates a disconnect event
-                // * (notifying the connection handler).
-                // */
-                //enet_peer_disconnect(mPeer, 0);
+                mPeer.Close();
             }
         }
 
@@ -82,6 +72,7 @@ namespace ISL.Server.Network
 
             NetworkStream stream=mPeer.GetStream();
 
+            //Daten in Websocketformat verpacken
             byte[] wsMsg=Websocket.GetWebsocketDataFrame(msg.getData());
 
             try
@@ -96,51 +87,6 @@ namespace ISL.Server.Network
                 }
             }
         }
-
-        //public void send(MessageOut msg)
-        //{
-        //    Logger.Write(LogLevel.Debug, "Sending message {0} to {1}", msg, this);
-
-        //    //gBandwidth.increaseClientOutput(this, msg.getLength());
-
-        //    NetworkStream stream = mPeer.GetStream();
-
-        //    //Länge senden
-        //    ushort lengthPackage = (ushort)msg.getLength();
-        //    byte[] lengthAsByteArray = BitConverter.GetBytes(lengthPackage);
-        //    stream.Write(lengthAsByteArray, 0, (int)lengthAsByteArray.Length); 
-
-        //    //TODO Überprüfung ob Länge größer ushort dann Problem
-        //    stream.Write(msg.getData(), 0, (int)msg.getLength()); 
-
-        //    //if(packet)
-        //    //{
-        //    //    enet_peer_send(mPeer, channel, packet);
-        //    //}
-        //    //else
-        //    //{
-        //    //    LOG_ERROR("Failure to create packet!");
-        //    //}
-        //}
-
-        //std::ostream &operator <<(std::ostream &os, const NetComputer &comp)
-        //{
-        //    // address.host contains the ip-address in network-byte-order
-        //    if (utils::processor::isLittleEndian)
-        //        os << ( comp.mPeer.address.host & 0x000000ff)        << "."
-        //           << ((comp.mPeer.address.host & 0x0000ff00) >> 8)  << "."
-        //           << ((comp.mPeer.address.host & 0x00ff0000) >> 16) << "."
-        //           << ((comp.mPeer.address.host & 0xff000000) >> 24);
-        //    else
-        //    // big-endian
-        //    // TODO: test this
-        //        os << ((comp.mPeer.address.host & 0xff000000) >> 24) << "."
-        //           << ((comp.mPeer.address.host & 0x00ff0000) >> 16) << "."
-        //           << ((comp.mPeer.address.host & 0x0000ff00) >> 8)  << "."
-        //           << ((comp.mPeer.address.host & 0x000000ff));
-
-        //    return os;
-        //}
 
         public IPAddress getIP()
         {
