@@ -21,6 +21,12 @@ namespace ISL.Server
         static string guid="258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
         static SHA1 sha1=SHA1CryptoServiceProvider.Create();
 
+        /// <summary>
+        /// Raises the accept event.
+        /// </summary>
+        /// <param name='tcpClient'>
+        /// Tcp client.
+        /// </param>
         public static void OnAccept(TcpClient tcpClient)
         {
             byte[] buffer=new byte[1024];

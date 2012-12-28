@@ -18,6 +18,13 @@ namespace ISL.Server
             baseStream=stream;
         }
 
+        public string ReadWebsocketHandshake()
+        {
+            byte[] webSocketPacket=ReadWebsocketPackage();
+            UTF8Encoding encoding=new UTF8Encoding();
+            return encoding.GetString(webSocketPacket);
+        }
+
         public MessageIn ReadMessage()
         {
             byte[] webSocketPacket=ReadWebsocketPackage();
