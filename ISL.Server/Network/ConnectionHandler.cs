@@ -46,7 +46,7 @@ namespace ISL.Server.Network
         //ENetAddress address;      /**< Includes the port to listen to. */
         //ENetHost *host;           /**< The host that listen for connections. */
 
-        //TcpListener
+        TcpListener listener;
 
         ushort Port=0;
         string ListenHost="";
@@ -71,77 +71,41 @@ namespace ISL.Server.Network
             throw new NotImplementedException("These function must be overloaded from derived class.");
         }
 
-        public bool startListen(ushort port, string listenHost)
+        /**
+         * Open the server socket.
+         * @param port the port to listen to
+         * @host  the host IP to listen on, defaults to the default localhost
+         */
+        public bool startListen(ushort port, string listenHost="")
         {
             Port=port;
             ListenHost=listenHost;
 
-            //    // Bind the server to the default localhost.
-            //    address.host = ENET_HOST_ANY;
-            //    address.port = port;
-
-            //    if (!listenHost.empty())
-            //        enet_address_set_host(&address, listenHost.c_str());
-
-            //    LOG_INFO("Listening on port " << port << "...");
-            //#if defined(ENET_VERSION) && ENET_VERSION >= ENET_CUTOFF
-            //    host = enet_host_create(
-            //            &address    /* the address to bind the server host to */,
-            //            Configuration::getValue("net_maxClients", 1000) /* allowed connections */,
-            //            0           /* unlimited channel count */,
-            //            0           /* assume any amount of incoming bandwidth */,
-            //            0           /* assume any amount of outgoing bandwidth */);
-            //#else
-            //    host = enet_host_create(
-            //            &address    /* the address to bind the server host to */,
-            //            Configuration::getValue("net_maxClients", 1000) /* allowed connections */,
-            //            0           /* assume any amount of incoming bandwidth */,
-            //            0           /* assume any amount of outgoing bandwidth */);
-            //#endif
-
-            //    return host != 0;
-
-            return true; //ssk
+            IPAddress localAddr=IPAddress.Parse("127.0.0.1");
+            
+            // TcpListener server = new TcpListener(port);
+            listener=new TcpListener(localAddr, Port);
+            
+            // Start listening for client requests.
+            try
+            {
+                listener.Start();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public void stopListen()
         {
-            //// - Disconnect all clients (close sockets)
-
-            //// TODO: probably there's a better way.
-            //ENetPeer *currentPeer;
-
-            //for (currentPeer = host.peers;
-            //     currentPeer < &host.peers[host.peerCount];
-            //     ++currentPeer)
-            //{
-            //   if (currentPeer.state == ENET_PEER_STATE_CONNECTED)
-            //   {
-            //        enet_peer_disconnect(currentPeer, 0);
-            //        enet_host_flush(host);
-            //        enet_peer_reset(currentPeer);
-            //   }
-            //}
-            //enet_host_destroy(host);
-            //// FIXME: memory leak on NetComputers
+            listener.Stop();
         }
 
         public void flush()
         {
             //enet_host_flush(host);
-        }
-
-        //TODO Extension oder Abgeleitete Klasse
-        static void Read(NetworkStream stream, byte[] buffer, int offset, int size)
-        {
-            while(size>0)
-            {
-                int read=stream.Read(buffer, offset, size);
-                if(read==0)
-                    throw new Exception();
-                size-=read;
-                offset+=read;
-            }
         }
 
         private void HandleClient(object td)
