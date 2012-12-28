@@ -48,12 +48,12 @@ namespace ISL.Server.Network
 
         //TcpListener
 
-        ushort Port = 0;
-        string ListenHost = "";
+        ushort Port=0;
+        string ListenHost="";
 
         public ConnectionHandler()
         {
-            clients = new List<NetComputer>();
+            clients=new List<NetComputer>();
         }
 
         protected virtual NetComputer computerConnected(TcpClient peer)
@@ -73,8 +73,8 @@ namespace ISL.Server.Network
 
         public bool startListen(ushort port, string listenHost)
         {
-            Port = port;
-            ListenHost = listenHost;
+            Port=port;
+            ListenHost=listenHost;
 
             //    // Bind the server to the default localhost.
             //    address.host = ENET_HOST_ANY;
@@ -134,45 +134,40 @@ namespace ISL.Server.Network
         //TODO Extension oder Abgeleitete Klasse
         static void Read(NetworkStream stream, byte[] buffer, int offset, int size)
         {
-            while (size>0)
+            while(size>0)
             {
-                int read = stream.Read(buffer, offset, size);
-                if (read == 0)
+                int read=stream.Read(buffer, offset, size);
+                if(read==0)
                     throw new Exception();
-                size -= read;
-                offset += read;
+                size-=read;
+                offset+=read;
             }
         }
 
         private void HandleClient(object td)
         {
-            NetComputer comp = (NetComputer)td;
-            TcpClient peer = comp.Peer;
+            NetComputer comp=(NetComputer)td;
+            TcpClient peer=comp.Peer;
 
             // If the scripting subsystem didn't hook the message
             // it will be handled by the default message handler.
 
-            String data = null;
-            //Byte[] bytes=new Byte[256];
-            Byte[] length = new Byte[2];
-            int i;
-
             // Get a stream object for reading and writing
-            NetworkStream stream = peer.GetStream();
+            NetworkStream stream=peer.GetStream();
 
-            WebSocketReader reader = new WebSocketReader(stream);
+            WebSocketReader reader=new WebSocketReader(stream);
 
-            bool closed = false;
+            bool closed=false;
 
-            while (true) //TODO Abbruchkriterium definieren, evt den Close Opcode im Websocket beachten?
+            while(true) //TODO Abbruchkriterium definieren, evt den Close Opcode im Websocket beachten?
             {
-                MessageIn msg = reader.ReadMessage();
+                MessageIn msg=reader.ReadMessage();
                 Logger.Write(LogLevel.Debug, "Received message {0} from {1}", (Protocol)msg.getId(), comp);
                 processMessage(comp, msg);
             }
 			
             //Disconnect
-            IPEndPoint remoteEndPoint = (IPEndPoint)(peer.Client.RemoteEndPoint);
+            IPEndPoint remoteEndPoint=(IPEndPoint)(peer.Client.RemoteEndPoint);
             Logger.Write(LogLevel.Information, "Client {0}:{1} disconnected", remoteEndPoint.Address, remoteEndPoint.Port);
 
             // Reset the peer's client information.
@@ -187,51 +182,53 @@ namespace ISL.Server.Network
 
         public void process(uint timeout)
         {
-            TcpListener server = null;
+            TcpListener server=null;
             try
             {
                 // Set the TcpListener on port 13000.
-                Int32 port = Port;
+                Int32 port=Port;
                 //IPAddress localAddr=IPAddress.Parse(ListenHost); //TODO Überprüfen
-                IPAddress localAddr = IPAddress.Parse("127.0.0.1");
+                IPAddress localAddr=IPAddress.Parse("127.0.0.1");
 
                 // TcpListener server = new TcpListener(port);
-                server = new TcpListener(localAddr, port);
+                server=new TcpListener(localAddr, port);
 
                 // Start listening for client requests.
                 server.Start();
 
                 // Enter the listening loop.
-                while (true)
+                while(true)
                 {
                     Logger.Write(LogLevel.Information, "Waiting for a connection...");
 
                     // Perform a blocking call to accept requests.
                     // You could also user server.AcceptSocket() here.
-                    TcpClient client = server.AcceptTcpClient();
+                    TcpClient client=server.AcceptTcpClient();
 
                     //Websocketbehandlung falls nötig (bei Client immer nötig)
                     Websocket.OnAccept(client);
                     //client.BeginAccept(null, 0, OnAccept, null);     
 
                     //Cast remote end point
-                    IPEndPoint remoteEndPoint = (IPEndPoint)(client.Client.RemoteEndPoint);
+                    IPEndPoint remoteEndPoint=(IPEndPoint)(client.Client.RemoteEndPoint);
 
-                    NetComputer comp = computerConnected(client);
+                    NetComputer comp=computerConnected(client);
                     clients.Add(comp);
                     Logger.Write(LogLevel.Information, "A new client connected from {0}:{1} to port {2}", remoteEndPoint.Address, remoteEndPoint.Port, port);
 
                     //Client to thread
                     Thread clientThread;	// Der Thread in dem die Process Funktion läuft
 
-                    clientThread = new Thread(HandleClient);
-                    clientThread.Name = "Client Thread";
+                    clientThread=new Thread(HandleClient);
+                    clientThread.Name="Client Thread";
                     clientThread.Start(comp);
                 }
-            } catch (SocketException e)
+            }
+            catch(SocketException e)
             {
                 Console.WriteLine("SocketException: {0}", e);
-            } finally
+            }
+            finally
             {
                 // Stop listening for new clients.
                 server.Stop();
