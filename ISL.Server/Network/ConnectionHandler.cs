@@ -39,7 +39,7 @@ namespace ISL.Server.Network
     {
 
         // A list of pointers to the client structures created by computerConnected.
-        public List<NetComputer> clients=;
+        public List<NetComputer> clients;
 
         //ENetAddress address;      /**< Includes the port to listen to. */
         //ENetHost *host;           /**< The host that listen for connections. */
