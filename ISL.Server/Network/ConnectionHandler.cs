@@ -37,11 +37,9 @@ namespace ISL.Server.Network
 {
     public class ConnectionHandler
     {
-        /**
-		 * A list of pointers to the client structures created by
-		 * computerConnected.
-		 */
-        public List<NetComputer> clients;
+
+        // A list of pointers to the client structures created by computerConnected.
+        public List<NetComputer> clients=;
 
         //ENetAddress address;      /**< Includes the port to listen to. */
         //ENetHost *host;           /**< The host that listen for connections. */
@@ -166,6 +164,7 @@ namespace ISL.Server.Network
 
                     NetComputer comp=computerConnected(client);
                     clients.Add(comp);
+
                     Logger.Write(LogLevel.Information, "A new client connected from {0}:{1} to port {2}", remoteEndPoint.Address, remoteEndPoint.Port, Port);
 
                     //Client to thread
@@ -189,11 +188,10 @@ namespace ISL.Server.Network
 
         protected void sendToEveryone(MessageOut msg)
         {
-            //for (NetComputers::iterator i = clients.begin(), i_end = clients.end();
-            //     i != i_end; ++i)
-            //{
-            //    (*i).send(msg);
-            //}
+            foreach(NetComputer comp in clients)
+            {
+                comp.send(msg);
+            }
         }
 
         public uint getClientCount()
