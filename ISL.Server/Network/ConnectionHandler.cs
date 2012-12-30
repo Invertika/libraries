@@ -146,20 +146,8 @@ namespace ISL.Server.Network
 
         public void process(uint timeout)
         {
-            TcpListener server=null;
             try
             {
-                // Set the TcpListener on port 13000.
-                Int32 port=Port;
-                //IPAddress localAddr=IPAddress.Parse(ListenHost); //TODO Überprüfen
-                IPAddress localAddr=IPAddress.Parse("127.0.0.1");
-
-                // TcpListener server = new TcpListener(port);
-                server=new TcpListener(localAddr, port);
-
-                // Start listening for client requests.
-                server.Start();
-
                 // Enter the listening loop.
                 while(true)
                 {
@@ -167,7 +155,7 @@ namespace ISL.Server.Network
 
                     // Perform a blocking call to accept requests.
                     // You could also user server.AcceptSocket() here.
-                    TcpClient client=server.AcceptTcpClient();
+                    TcpClient client=listener.AcceptTcpClient();
 
                     //Websocketbehandlung falls nötig (bei Client immer nötig)
                     Websocket.OnAccept(client);
@@ -178,7 +166,7 @@ namespace ISL.Server.Network
 
                     NetComputer comp=computerConnected(client);
                     clients.Add(comp);
-                    Logger.Write(LogLevel.Information, "A new client connected from {0}:{1} to port {2}", remoteEndPoint.Address, remoteEndPoint.Port, port);
+                    Logger.Write(LogLevel.Information, "A new client connected from {0}:{1} to port {2}", remoteEndPoint.Address, remoteEndPoint.Port, Port);
 
                     //Client to thread
                     Thread clientThread;	// Der Thread in dem die Process Funktion läuft
@@ -195,7 +183,7 @@ namespace ISL.Server.Network
             finally
             {
                 // Stop listening for new clients.
-                server.Stop();
+                listener.Stop();
             }
 
             //ENetEvent event;
