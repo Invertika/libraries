@@ -20,18 +20,19 @@ namespace ISL.Server
 
         public string ReadWebsocketHandshake()
         {
-            byte[] webSocketPacket=ReadWebsocketPackage();
+            bool websocketClosed;
+            byte[] webSocketPacket=ReadWebsocketPackage(out websocketClosed);
             UTF8Encoding encoding=new UTF8Encoding();
             return encoding.GetString(webSocketPacket);
         }
 
-        public MessageIn ReadMessage()
+        public MessageIn ReadMessage(out bool websocketClosed)
         {
-            byte[] webSocketPacket=ReadWebsocketPackage();
+            byte[] webSocketPacket=ReadWebsocketPackage(out websocketClosed);
             return new MessageIn(webSocketPacket);
         }
 
-        byte[] ReadWebsocketPackage()
+        byte[] ReadWebsocketPackage(out bool websocketClosed)
         {
             byte[] buffer=new byte[2];
             baseStream.Read(buffer, 0, 2);
@@ -103,10 +104,20 @@ namespace ISL.Server
             }
 
             ushort closeCode=0;
+            if(opCode==(int)WebsocketOpCode.Close&&data.Length==2)
+            {
+                byte[] dataCloned=(byte[])data.Clone();
+                Array.Reverse(dataCloned);
+                closeCode=BitConverter.ToUInt16(dataCloned, 0);
+            }
 
             if(closeCode!=0)
             {
-                int debug=555;
+                websocketClosed=true;
+            }
+            else
+            {
+                websocketClosed=false;
             }
 
             return data;

@@ -119,13 +119,17 @@ namespace ISL.Server.Network
 
             WebSocketReader reader=new WebSocketReader(stream);
 
-            bool closed=false;
+            bool websocketClosed=false;
 
-            while(true) //TODO Abbruchkriterium definieren, evt den Close Opcode im Websocket beachten?
+            while(websocketClosed==false)
             {
-                MessageIn msg=reader.ReadMessage();
-                Logger.Write(LogLevel.Debug, "Received message {0} from {1}", (Protocol)msg.getId(), comp);
-                processMessage(comp, msg);
+                MessageIn msg=reader.ReadMessage(out websocketClosed);
+
+                if(!websocketClosed)
+                {
+                    Logger.Write(LogLevel.Debug, "Received message {0} from {1}", (Protocol)msg.getId(), comp);
+                    processMessage(comp, msg);
+                }
             }
 			
             //Disconnect
