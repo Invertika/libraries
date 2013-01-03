@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Net.Sockets;
+using ISL.Server.Utilities;
 
 namespace ISL.Server.Network
 {
@@ -66,7 +67,8 @@ namespace ISL.Server.Network
 
                 if(read==0)
                 {
-                    throw new Exception();
+                    Logger.Write(LogLevel.Warning, "Recieve empty package.");
+                    //throw new Exception();
                 }
 
                 size-=read;
