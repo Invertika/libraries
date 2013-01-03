@@ -30,6 +30,7 @@ using System.Linq;
 using System.Text;
 using System.Net.Sockets;
 using ISL.Server.Utilities;
+using System.Reflection;
 
 namespace ISL.Server.Network
 {
@@ -67,7 +68,10 @@ namespace ISL.Server.Network
 
                 if(read==0)
                 {
-                    Logger.Write(LogLevel.Warning, "Recieve empty package.");
+                    PropertyInfo pi=stream.GetType().GetProperty("Socket", BindingFlags.Public|BindingFlags.NonPublic|BindingFlags.Instance);
+                    Socket socket=(Socket)pi.GetValue(stream, null);
+
+                    Logger.Write(LogLevel.Warning, "Recieve empty package from {0}.", socket.RemoteEndPoint);
                     //throw new Exception();
                 }
 
