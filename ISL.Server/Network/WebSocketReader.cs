@@ -18,12 +18,20 @@ namespace ISL.Server
             baseStream=stream;
         }
 
+        /// <summary>
+        /// Reads the websocket handshake.
+        /// Der Handshake ist dabei normaler Text und kein Websocket Paket
+        /// </summary>
+        /// <returns>
+        /// The websocket handshake.
+        /// </returns>
         public string ReadWebsocketHandshake()
         {
-            bool websocketClosed;
-            byte[] webSocketPacket=ReadWebsocketPackage(out websocketClosed);
+            byte[] handshake=new byte[1024];
+            baseStream.Read(handshake, 0, handshake.Length);
+
             UTF8Encoding encoding=new UTF8Encoding();
-            return encoding.GetString(webSocketPacket);
+            return encoding.GetString(handshake);
         }
 
         public MessageIn ReadMessage(out bool websocketClosed)
@@ -47,7 +55,7 @@ namespace ISL.Server
         byte[] ReadWebsocketPackage(out bool websocketClosed)
         {
             byte[] buffer=new byte[2];
-            baseStream.Read(buffer, 0, 2);
+            baseStream.ReadSecure(buffer, 0, 2);
 
             bool fin=(buffer[0]&0x80)==0x80;
 
@@ -67,7 +75,7 @@ namespace ISL.Server
                 case 126:
                     {
                         buffer=new byte[2];
-                        baseStream.Read(buffer, 0, 2);
+                        baseStream.ReadSecure(buffer, 0, 2);
                         byte[] bytesUShort=buffer;
                         if(bytesUShort!=null)
                         {
@@ -79,7 +87,7 @@ namespace ISL.Server
                 case 127:
                     {
                         buffer=new byte[8];
-                        baseStream.Read(buffer, 0, 8);
+                        baseStream.ReadSecure(buffer, 0, 8);
                         byte[] bytesULong=buffer;
                         if(bytesULong!=null)
                         {
@@ -99,12 +107,12 @@ namespace ISL.Server
             if(mask)
             {
                 buffer=new byte[4];
-                baseStream.Read(buffer, 0, 4);
+                baseStream.ReadSecure(buffer, 0, 4);
                 maskKeys=buffer;
             }
 
             buffer=new byte[length];
-            baseStream.Read(buffer, 0, (int)length);
+            baseStream.ReadSecure(buffer, 0, (int)length);
             byte[] data=buffer;
 
             if(mask)

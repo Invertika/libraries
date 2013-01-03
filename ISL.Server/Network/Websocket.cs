@@ -34,6 +34,9 @@ namespace ISL.Server
             try
             {
                 NetworkStream stream=tcpClient.GetStream();
+
+                //Hier wird die Read Methode benutzt, da kein Websocketpaket eingelesen wird
+                //sondern der Text dessen Länge unbekannt ist.
                 int readed=stream.Read(buffer, 0, buffer.Length);
 
                 string headerResponse=(System.Text.Encoding.UTF8.GetString(buffer)).Substring(0, readed);

@@ -48,19 +48,34 @@ namespace ISL.Server.Network
             return buffer;
         }
 
-        static void ReadSecure(NetworkStream stream, byte[] buffer, int offset, int size)
+        public static byte[] ReadSecure(this NetworkStream stream, int offset, int size)
         {
+            byte[] buffer=new byte[size];
+            ReadSecure(stream, buffer, offset, size);
+            return buffer;
+        }
+
+        public static int ReadSecure(this NetworkStream stream, byte[] buffer, int offset, int size)
+        {
+            int readed=0;
+
             while(size>0)
             {
                 int read=stream.Read(buffer, offset, size);
+                readed+=read;
+
                 if(read==0)
+                {
                     throw new Exception();
+                }
+
                 size-=read;
                 offset+=read;
             }
+
+            return readed;
         }
-//
-        //TODO Überprüfen ob diese Methode als Extension erkannt wird
+
         public static void Write(this NetworkStream stream, byte[] buffer)
         {
             stream.Write(buffer, 0, buffer.Length);
