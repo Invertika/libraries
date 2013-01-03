@@ -28,7 +28,19 @@ namespace ISL.Server
 
         public MessageIn ReadMessage(out bool websocketClosed)
         {
-            byte[] webSocketPacket=ReadWebsocketPackage(out websocketClosed);
+            byte[] webSocketPacket=new byte[]{};
+            websocketClosed=false;
+
+            while(webSocketPacket.Length==0)
+            {
+                webSocketPacket=ReadWebsocketPackage(out websocketClosed);
+
+                if(webSocketPacket.Length==0)
+                {
+                    Logger.Write(LogLevel.Warning, "Recieve empty WebSocket package.");
+                }
+            }
+
             return new MessageIn(webSocketPacket);
         }
 
