@@ -94,96 +94,93 @@ namespace ISL.Server
         /// <returns></returns>
         public static byte[] GetWebsocketDataFrame(byte[] binary)
         {
-            try
-            {
-                ulong headerLength=2;
-                byte[] data=binary;
+            ulong headerLength=2;
+            byte[] data=binary;
 
-                bool mask=false;
-                byte[] maskKeys=null;
+            bool mask=false;
+            byte[] maskKeys=null;
+
+            if(mask)
+            {
+                headerLength+=4;
+                data=(byte[])data.Clone();
+
+                Random random=new Random(Environment.TickCount);
+                maskKeys=new byte[4];
+                for(int i=0;i<4;++i)
+                {
+                    maskKeys[i]=(byte)random.Next(byte.MinValue, byte.MaxValue);
+                }
+
+                for(int i=0;i<data.Length;++i)
+                {
+                    data[i]=(byte)(data[i]^maskKeys[i%4]);
+                }
+            }
+
+            byte payload;
+            if(data.Length>=65536)
+            {
+                headerLength+=8;
+                payload=127;
+            }
+            else if(data.Length>=126)
+            {
+                headerLength+=2;
+                payload=126;
+            }
+            else
+            {
+                payload=(byte)data.Length;
+            }
+
+            byte[] header=new byte[headerLength];
+
+            header[0]=0x80|0x2;
+
+            if(mask)
+            {
+                header[1]=0x80;
+            }
+            else
+            {
+                header[1]=(byte)(header[1]|payload&0x40|payload&0x20|payload&0x10|payload&0x8|payload&0x4|payload&0x2|payload&0x1);
+            }
+
+            if(payload==126)
+            {
+                byte[] lengthBytes=BitConverter.GetBytes((ushort)data.Length).Reverse().ToArray();
+
+                header[2]=lengthBytes[0];
+                header[3]=lengthBytes[1];
 
                 if(mask)
                 {
-                    headerLength+=4;
-                    data=(byte[])data.Clone();
-
-                    Random random=new Random(Environment.TickCount);
-                    maskKeys=new byte[4];
                     for(int i=0;i<4;++i)
                     {
-                        maskKeys[i]=(byte)random.Next(byte.MinValue, byte.MaxValue);
-                    }
-
-                    for(int i=0;i<data.Length;++i)
-                    {
-                        data[i]=(byte)(data[i]^maskKeys[i%4]);
+                        header[i+4]=maskKeys[i];
                     }
                 }
+            }
+            else if(payload==127)
+            {
+                byte[] lengthBytes=BitConverter.GetBytes((ulong)data.Length).Reverse().ToArray();
 
-                byte payload;
-                if(data.Length>=65536)
+                for(int i=0;i<8;++i)
                 {
-                    headerLength+=8;
-                    payload=127;
-                }
-                else if(data.Length>=126)
-                {
-                    headerLength+=2;
-                    payload=126;
-                }
-                else
-                {
-                    payload=(byte)data.Length;
+                    header[i+2]=lengthBytes[i];
                 }
 
-                byte[] header=new byte[headerLength];
-
-                header[0]=0x80|0x1;
                 if(mask)
                 {
-                    header[1]=0x80;
-                }
-                header[1]=(byte)(header[1]|payload&0x40|payload&0x20|payload&0x10|payload&0x8|payload&0x4|payload&0x2|payload&0x1);
-
-                if(payload==126)
-                {
-                    byte[] lengthBytes=BitConverter.GetBytes((ushort)data.Length).Reverse().ToArray();
-                    header[2]=lengthBytes[0];
-                    header[3]=lengthBytes[1];
-
-                    if(mask)
+                    for(int i=0;i<4;++i)
                     {
-                        for(int i=0;i<4;++i)
-                        {
-                            header[i+4]=maskKeys[i];
-                        }
+                        header[i+10]=maskKeys[i];
                     }
                 }
-                else if(payload==127)
-                {
-                    byte[] lengthBytes=BitConverter.GetBytes((ulong)data.Length).Reverse().ToArray();
-                    for(int i=0;i<8;++i)
-                    {
-                        header[i+2]=lengthBytes[i];
-                    }
-                    if(mask)
-                    {
-                        for(int i=0;i<4;++i)
-                        {
-                            header[i+10]=maskKeys[i];
-                        }
-                    }
-                }
-
-                return header.Concat(data).ToArray();
-
-            }
-            catch(Exception ex)
-            {
-                Logger.Write(LogLevel.Error, "Websocket transport protocol Send exception: {0}", ex);
             }
 
-            return null;
+            return header.Concat(data).ToArray();
         }
     }
 }

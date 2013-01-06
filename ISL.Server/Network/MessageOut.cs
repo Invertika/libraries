@@ -64,6 +64,11 @@ namespace ISL.Server.Network
             writer.Write((Int16)value);
         }
 
+        public void writeUInt16(int value)
+        {
+            writer.Write((UInt16)value);
+        }
+
         public void writeInt32(int value)
         {
             writer.Write((Int32)value);

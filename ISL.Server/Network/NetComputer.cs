@@ -68,8 +68,6 @@ namespace ISL.Server.Network
 
         public void send(MessageOut msg)
         {
-            Logger.Write(LogLevel.Debug, "Sending message {0} to {1}", msg, this);
-
             NetworkStream stream=mPeer.GetStream();
 
             //Daten in Websocketformat verpacken
@@ -78,6 +76,7 @@ namespace ISL.Server.Network
             try
             {
                 stream.Write(wsMsg);
+                Logger.Write(LogLevel.Debug, "Sending message {0} to {1}", msg, this);
             }
             catch(IOException ex)
             {
