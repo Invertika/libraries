@@ -101,11 +101,6 @@ namespace ISL.Server.Network
             listener.Stop();
         }
 
-        public void flush()
-        {
-            //enet_host_flush(host);
-        }
-
         private void HandleClient(object td)
         {
             NetComputer comp=(NetComputer)td;

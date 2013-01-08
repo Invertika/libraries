@@ -18,6 +18,14 @@ namespace ISL.Server
             baseStream=stream;
         }
 
+        public bool IsDataAvailabe
+        {
+            get
+            {
+                return baseStream.DataAvailable;
+            }
+        }
+
         /// <summary>
         /// Reads the websocket handshake.
         /// Der Handshake ist dabei normaler Text und kein Websocket Paket
