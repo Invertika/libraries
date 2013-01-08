@@ -82,6 +82,9 @@
     <Compile Include="Common\InventoryItem.cs" />
     <Compile Include="Account\SpecialValue.cs" />
     <Compile Include="Network\WebsocketOpCode.cs" />
+    <Compile Include="Enums\AccountClientStatus.cs" />
+    <Compile Include="Utilities\TokenCollectorBase.cs" />
+    <Compile Include="Utilities\TokenCollector.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
