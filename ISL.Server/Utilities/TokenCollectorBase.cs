@@ -112,15 +112,14 @@ namespace ISL.Server.Utilities
 
         protected void removeClient(object data) //intptr_t data)
         {
-            //for (std::list<Item>::iterator it = mPendingClients.begin(),
-            //     it_end = mPendingClients.end(); it != it_end; ++it)
-            //{
-            //    if (it.data == data)
-            //    {
-            //        mPendingClients.erase(it);
-            //        return;
-            //    }
-            //}
+            foreach(TokenItem item in mPendingClients)
+            {
+                if(item.Data==data)
+                {
+                    mPendingClients.Remove(item);
+                    return;
+                }
+            }
         }
 
         protected void removeOutdated(DateTime current) //time_t
