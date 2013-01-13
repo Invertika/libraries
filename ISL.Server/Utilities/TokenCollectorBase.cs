@@ -92,26 +92,22 @@ namespace ISL.Server.Utilities
 
         protected void insertConnect(string token, object data) //intptr_t data)
         {
-            //for (std::list<Item>::reverse_iterator it = mPendingClients.rbegin(),
-            //     it_end = mPendingClients.rend(); it != it_end; ++it)
-            //{
-            //    if (it.token == token)
-            //    {
-            //        foundMatch(it.data, data);
-            //        mPendingClients.erase(--it.base());
-            //        return;
-            //    }
-            //}
+            foreach(TokenItem item in mPendingClients)
+            {
+                if(item.Token==token)
+                {
+                    foundMatch(item.Data, data);
+                    mPendingClients.Remove(item);
+                    return;
+                }
+            }
 
-            //time_t current = time(NULL);
+            DateTime current=DateTime.Now;
 
-            //Item item;
-            //item.token = token;
-            //item.data = data;
-            //item.timeStamp = current;
-            //mPendingConnects.push_back(item);
+            TokenItem tItem=new TokenItem(token, data, current);
+            mPendingConnects.Add(tItem);
 
-            //removeOutdated(current);
+            removeOutdated(current);
         }
 
         protected void removeClient(object data) //intptr_t data)
