@@ -124,27 +124,33 @@ namespace ISL.Server.Utilities
 
         protected void removeOutdated(DateTime current) //time_t
         {
-            //// Timeout happens after 30 seconds. Much longer may actually pass, though.
-            //time_t threshold = current - 30;
-            //if (threshold < mLastCheck) return;
+            // Timeout happens after 30 seconds. Much longer may actually pass, though.
+            DateTime threshold=current-new TimeSpan(0, 0, 0, 30, 0);
+            if(threshold<mLastCheck)
+                return;
 
-            //std::list<Item>::iterator it;
+            foreach(TokenItem item in mPendingConnects)
+            {
+                if(item.TimeStamp<threshold)
+                {
+                    removedConnect(item.Data);
+                    mPendingConnects.Remove(item);
+                }
+            }
 
-            //it = mPendingConnects.begin();
-            //while (it != mPendingConnects.end() && it.timeStamp < threshold)
-            //{
-            //    removedConnect(it.data);
-            //    it = mPendingConnects.erase(it);
-            //}
+            foreach(TokenItem item in mPendingClients)
+            {
+                if(item.TimeStamp<threshold)
+                {
+                    removedClient(item.Data);
+                    mPendingClients.Remove(item);
+                }
+            }
+    
 
-            //it = mPendingClients.begin();
-            //while (it != mPendingClients.end() && it.timeStamp < threshold)
-            //{
-            //    removedClient(it.data);
-            //    it = mPendingClients.erase(it);
-            //}
 
-            //mLastCheck = current;
+
+            mLastCheck=current;
         }
 
         public TokenCollectorBase()
