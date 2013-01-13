@@ -50,6 +50,13 @@ namespace ISL.Server.Utilities
              */
         DateTime mLastCheck;
 
+        public TokenCollectorBase()
+        {
+            mLastCheck=DateTime.MinValue;
+            mPendingClients=new List<TokenItem>();
+            mPendingConnects=new List<TokenItem>();
+        }
+
         //protected:
         protected virtual void removedClient(object data)
         {
@@ -148,11 +155,6 @@ namespace ISL.Server.Utilities
             }
     
             mLastCheck=current;
-        }
-
-        public TokenCollectorBase()
-        {
-            mLastCheck=DateTime.MinValue;
         }
     }
 }
