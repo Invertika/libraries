@@ -85,6 +85,7 @@
     <Compile Include="Enums\AccountClientStatus.cs" />
     <Compile Include="Utilities\TokenCollectorBase.cs" />
     <Compile Include="Utilities\TokenCollector.cs" />
+    <Compile Include="Utilities\TokenItem.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

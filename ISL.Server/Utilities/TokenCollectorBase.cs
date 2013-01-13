@@ -33,43 +33,44 @@ namespace ISL.Server.Utilities
 {
     public class TokenCollectorBase
     {
-        //            struct Item
-        //    {
-        //        std::string token; /**< Cookie used by the client. */
-        //        intptr_t data;     /**< User data. */
-        //        time_t timeStamp;  /**< Creation time. */
-        //    };
+        /**
+             * List containing client already connected. Newer clients are at the
+             * back of the list.
+             */
+        List<TokenItem> mPendingClients;
 
-        //    /**
-        //     * List containing client already connected. Newer clients are at the
-        //     * back of the list.
-        //     */
-        //    std::list<Item> mPendingClients;
+        /**
+             * List containing server data waiting for clients. Newer data are at
+             * the back of the list.
+             */
+        List<TokenItem> mPendingConnects;
 
-        //    /**
-        //     * List containing server data waiting for clients. Newer data are at
-        //     * the back of the list.
-        //     */
-        //    std::list<Item> mPendingConnects;
-
-        //    /**
-        //     * Time at which the TokenCollector performed its last check.
-        //     */
-        //    time_t mLastCheck;
+        /**
+             * Time at which the TokenCollector performed its last check.
+             */
+        DateTime mLastCheck;
 
         //protected:
+        protected virtual void removedClient()
+        {
+            throw new NotImplementedException("These function must be overloaded from derived class.");
+        }
+
+        protected virtual void removedConnect()
+        {
+            throw new NotImplementedException("These function must be overloaded from derived class.");
+        }
+
+        protected virtual void foundMatch()
+        {
+            throw new NotImplementedException("These function must be overloaded from derived class.");
+        }
 
         //    virtual void removedClient(intptr_t) = 0;
         //    virtual void removedConnect(intptr_t) = 0;
         //    virtual void foundMatch(intptr_t client, intptr_t connect) = 0;
-        //    TokenCollectorBase();
-        //    virtual ~TokenCollectorBase();
-        //    void insertClient(const std::string &, intptr_t);
-        //    void removeClient(intptr_t);
-        //    void insertConnect(const std::string &, intptr_t);
-        //    void removeOutdated(time_t);
 
-        void insertClient(string token, object data) //intptr_t data)
+        protected void insertClient(string token, object data) //intptr_t data)
         {
             //for (std::list<Item>::reverse_iterator it = mPendingConnects.rbegin(),
             //     it_end = mPendingConnects.rend(); it != it_end; ++it)
@@ -93,7 +94,7 @@ namespace ISL.Server.Utilities
             //removeOutdated(current);
         }
 
-        void insertConnect(string token, object data) //intptr_t data)
+        protected void insertConnect(string token, object data) //intptr_t data)
         {
             //for (std::list<Item>::reverse_iterator it = mPendingClients.rbegin(),
             //     it_end = mPendingClients.rend(); it != it_end; ++it)
@@ -117,7 +118,7 @@ namespace ISL.Server.Utilities
             //removeOutdated(current);
         }
 
-        void removeClient(object data) //intptr_t data)
+        protected void removeClient(object data) //intptr_t data)
         {
             //for (std::list<Item>::iterator it = mPendingClients.begin(),
             //     it_end = mPendingClients.end(); it != it_end; ++it)
@@ -130,7 +131,7 @@ namespace ISL.Server.Utilities
             //}
         }
 
-        void removeOutdated(long current) //time_t
+        protected void removeOutdated(long current) //time_t
         {
             //// Timeout happens after 30 seconds. Much longer may actually pass, though.
             //time_t threshold = current - 30;
@@ -157,12 +158,7 @@ namespace ISL.Server.Utilities
 
         public TokenCollectorBase()
         {
-            //mLastCheck(time(NULL))
+            mLastCheck=DateTime.MinValue;
         }
-
-        //TokenCollectorBase::~TokenCollectorBase()
-        //{
-        //    // Not declared inline, as the list destructors are not trivial.
-        //}
     }
 }

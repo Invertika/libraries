@@ -47,7 +47,7 @@ namespace ISL.Server.Utilities
 		 */
         public void addPendingClient(string token, Client data)
         {
-            //insertClient(token, (intptr_t)data); 
+            insertClient(token, data); 
         }
 
         /**
