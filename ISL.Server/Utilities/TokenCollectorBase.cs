@@ -51,17 +51,17 @@ namespace ISL.Server.Utilities
         DateTime mLastCheck;
 
         //protected:
-        protected virtual void removedClient()
+        protected virtual void removedClient(object data)
         {
             throw new NotImplementedException("These function must be overloaded from derived class.");
         }
 
-        protected virtual void removedConnect()
+        protected virtual void removedConnect(object data)
         {
             throw new NotImplementedException("These function must be overloaded from derived class.");
         }
 
-        protected virtual void foundMatch()
+        protected virtual void foundMatch(object client, object connect)
         {
             throw new NotImplementedException("These function must be overloaded from derived class.");
         }
@@ -70,28 +70,24 @@ namespace ISL.Server.Utilities
         //    virtual void removedConnect(intptr_t) = 0;
         //    virtual void foundMatch(intptr_t client, intptr_t connect) = 0;
 
-        protected void insertClient(string token, object data) //intptr_t data)
+        protected void insertClient(string token, object data)
         {
-            //for (std::list<Item>::reverse_iterator it = mPendingConnects.rbegin(),
-            //     it_end = mPendingConnects.rend(); it != it_end; ++it)
-            //{
-            //    if (it.token == token)
-            //    {
-            //        foundMatch(data, it.data);
-            //        mPendingConnects.erase(--it.base());
-            //        return;
-            //    }
-            //}
+            foreach(TokenItem item in mPendingConnects)
+            {
+                if(item.Token==token)
+                {
+                    foundMatch(data, item.Data);
+                    mPendingConnects.Remove(item); //mPendingConnects.erase(--it.base());
+                    return;
+                }
+            }
 
-            //time_t current = time(NULL);
+            DateTime current=DateTime.Now;
 
-            //Item item;
-            //item.token = token;
-            //item.data = data;
-            //item.timeStamp = current;
-            //mPendingClients.push_back(item);
+            TokenItem tItem=new TokenItem(token, data, current);
+            mPendingClients.Add(tItem);
 
-            //removeOutdated(current);
+            removeOutdated(current);
         }
 
         protected void insertConnect(string token, object data) //intptr_t data)
@@ -131,7 +127,7 @@ namespace ISL.Server.Utilities
             //}
         }
 
-        protected void removeOutdated(long current) //time_t
+        protected void removeOutdated(DateTime current) //time_t
         {
             //// Timeout happens after 30 seconds. Much longer may actually pass, though.
             //time_t threshold = current - 30;
