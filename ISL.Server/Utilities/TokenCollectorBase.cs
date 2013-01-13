@@ -147,9 +147,6 @@ namespace ISL.Server.Utilities
                 }
             }
     
-
-
-
             mLastCheck=current;
         }
 

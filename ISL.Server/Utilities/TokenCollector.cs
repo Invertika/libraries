@@ -56,7 +56,7 @@ namespace ISL.Server.Utilities
 		 */
         public void addPendingConnect(string token, ServerData data)
         {
-            //insertConnect(token, (intptr_t)data); 
+            insertConnect(token, (object)data); 
         }
 
         /**
@@ -65,20 +65,7 @@ namespace ISL.Server.Utilities
 		 */
         public void deletePendingClient(Client data)
         {
-            //removeClient((intptr_t)data); 
+            removeClient((object)data); 
         }
-
-        //private:
-
-        //    void removedClient(intptr_t data)
-        //    { mHandler.deletePendingClient((Client)data); }
-
-        //    void removedConnect(intptr_t data)
-        //    { mHandler.deletePendingConnect((ServerData)data); }
-
-        //    void foundMatch(intptr_t client, intptr_t data)
-        //    { mHandler.tokenMatched((Client)client, (ServerData)data); }
-
-        //    Handler *mHandler;
     }
 }
