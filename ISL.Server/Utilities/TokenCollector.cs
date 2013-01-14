@@ -76,18 +76,18 @@ namespace ISL.Server.Utilities
             removeClient((object)data); 
         }
 
-        void removedClient(NetComputer data)
+        protected override void removedClient(NetComputer data)
         {
             mHandler.deletePendingClient((NetComputer)data);
         }
         
-        void removedConnect(object data)
+        protected override void removedConnect(object data)
         {
             mHandler.deletePendingConnect(data);
             //mHandler.deletePendingConnect((ServerData)data);
         }
         
-        void foundMatch(NetComputer client, object data)
+        protected override void foundMatch(NetComputer client, object data)
         {
             mHandler.tokenMatched(client, data);
         }
