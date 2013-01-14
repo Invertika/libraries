@@ -78,7 +78,7 @@ namespace ISL.Server.Utilities
 
         protected override void removedClient(NetComputer data)
         {
-            mHandler.deletePendingClient((NetComputer)data);
+            mHandler.deletePendingClient(data);
         }
         
         protected override void removedConnect(object data)

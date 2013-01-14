@@ -28,6 +28,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ISL.Server.Network;
 
 namespace ISL.Server.Utilities
 {
@@ -58,7 +59,7 @@ namespace ISL.Server.Utilities
         }
 
         //protected:
-        protected virtual void removedClient(object data)
+        protected virtual void removedClient(NetComputer data)
         {
             throw new NotImplementedException("These function must be overloaded from derived class.");
         }
@@ -68,7 +69,7 @@ namespace ISL.Server.Utilities
             throw new NotImplementedException("These function must be overloaded from derived class.");
         }
 
-        protected virtual void foundMatch(object client, object connect)
+        protected virtual void foundMatch(NetComputer client, object data)
         {
             throw new NotImplementedException("These function must be overloaded from derived class.");
         }
@@ -83,7 +84,7 @@ namespace ISL.Server.Utilities
             {
                 if(item.Token==token)
                 {
-                    foundMatch(data, item.Data);
+                    foundMatch((NetComputer)data, item.Data);
                     mPendingConnects.Remove(item); //mPendingConnects.erase(--it.base());
                     return;
                 }
@@ -103,7 +104,7 @@ namespace ISL.Server.Utilities
             {
                 if(item.Token==token)
                 {
-                    foundMatch(item.Data, data);
+                    foundMatch((NetComputer)item.Data, data);
                     mPendingClients.Remove(item);
                     return;
                 }
@@ -149,7 +150,7 @@ namespace ISL.Server.Utilities
             {
                 if(item.TimeStamp<threshold)
                 {
-                    removedClient(item.Data);
+                    removedClient((NetComputer)item.Data);
                     mPendingClients.Remove(item);
                 }
             }
