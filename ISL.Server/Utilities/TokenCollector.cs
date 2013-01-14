@@ -33,6 +33,11 @@ namespace ISL.Server.Utilities
 {
     public class TokenCollector<Handler, Client, ServerData> : TokenCollectorBase
     {
+        public TokenCollector(Handler h)
+        {
+            //mHandler=h;
+        }
+
         //TokenCollector(Handler *h): mHandler(h)
         //{
         //    _TC_CheckData<Client> ClientMustBeSimple;
@@ -67,5 +72,22 @@ namespace ISL.Server.Utilities
         {
             removeClient((object)data); 
         }
+
+        void removedClient(object data)
+        {
+            mHandler.deletePendingClient((Client)data);
+        }
+        
+        void removedConnect(object data)
+        {
+            mHandler.deletePendingConnect((ServerData)data);
+        }
+        
+        void foundMatch(object client, object data)
+        {
+            mHandler.tokenMatched((Client)client, (ServerData)data);
+        }
+        
+        Handler mHandler;
     }
 }
