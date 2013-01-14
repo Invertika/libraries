@@ -28,14 +28,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ISL.Server.Network;
 
 namespace ISL.Server.Utilities
 {
-    public class TokenCollector<Handler, Client, ServerData> : TokenCollectorBase
+    public class TokenCollector: TokenCollectorBase
     {
-        public TokenCollector(Handler h)
+        ITokenCollectorHandler mHandler;
+
+        public TokenCollector(ITokenCollectorHandler handler)//, NetComputer client, object serverData)
         {
-            //mHandler=h;
+            mHandler=handler;
         }
 
         //TokenCollector(Handler *h): mHandler(h)
@@ -50,7 +53,7 @@ namespace ISL.Server.Utilities
 		 * Checks if the server expected this client token. If so, calls
 		 * Handler::tokenMatched. Otherwise marks the client as pending.
 		 */
-        public void addPendingClient(string token, Client data)
+        public void addPendingClient(string token, NetComputer data)
         {
             insertClient(token, data); 
         }
@@ -59,7 +62,7 @@ namespace ISL.Server.Utilities
 		 * Checks if a client already registered this token. If so, calls
 		 * Handler::tokenMatched. Otherwise marks the data as pending.
 		 */
-        public void addPendingConnect(string token, ServerData data)
+        public void addPendingConnect(string token, object data)
         {
             insertConnect(token, (object)data); 
         }
@@ -68,26 +71,25 @@ namespace ISL.Server.Utilities
 		 * Removes a pending client.
 		 * @note Does not call destroyPendingClient.
 		 */
-        public void deletePendingClient(Client data)
+        public void deletePendingClient(NetComputer data)
         {
             removeClient((object)data); 
         }
 
-        void removedClient(object data)
+        void removedClient(NetComputer data)
         {
-            mHandler.deletePendingClient((Client)data);
+            mHandler.deletePendingClient((NetComputer)data);
         }
         
         void removedConnect(object data)
         {
-            mHandler.deletePendingConnect((ServerData)data);
+            mHandler.deletePendingConnect(data);
+            //mHandler.deletePendingConnect((ServerData)data);
         }
         
-        void foundMatch(object client, object data)
+        void foundMatch(NetComputer client, object data)
         {
-            mHandler.tokenMatched((Client)client, (ServerData)data);
+            mHandler.tokenMatched(client, data);
         }
-        
-        Handler mHandler;
     }
 }

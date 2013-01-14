@@ -37,7 +37,6 @@ namespace ISL.Server.Network
 {
     public class ConnectionHandler
     {
-
         // A list of pointers to the client structures created by computerConnected.
         public List<NetComputer> clients;
 
