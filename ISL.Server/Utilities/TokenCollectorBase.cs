@@ -137,8 +137,10 @@ namespace ISL.Server.Utilities
             if(threshold<mLastCheck)
                 return;
 
-            foreach(TokenItem item in mPendingConnects)
+            for(int i=0;i<mPendingConnects.Count;i++)
             {
+                TokenItem item=mPendingConnects[i];
+
                 if(item.TimeStamp<threshold)
                 {
                     removedConnect(item.Data);
