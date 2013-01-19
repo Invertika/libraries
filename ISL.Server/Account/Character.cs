@@ -31,11 +31,14 @@ using System.Text;
 using ISL.Server.Utilities;
 using ISL.Server.Common;
 using ISL.Server.Game;
+using ISL.Server.Serialize;
 
 namespace ISL.Server.Account
 {
     public class Character
     {
+        public CharacterData characterData;
+
         //Character(Character &);
         //Character &operator=(const Character &);
 
@@ -44,26 +47,11 @@ namespace ISL.Server.Account
         //double getAttrMod(AttributeMap::const_iterator &it) const
         //{ return it.second.modified; }
 
-        Possessions mPossessions=new Possessions(); //!< All the possesions of the character.
         string mName;        //!< Name of the character.
         int mDatabaseID;          //!< Character database ID.
         uint mCharacterSlot;  //!< Character slot.
         int mAccountID;           //!< Account ID of the owner.
         Account mAccount;        //!< Account owning the character.
-        Point mPos;               //!< Position the being is at.
-        public Dictionary<uint, AttributeValue> mAttributes=new Dictionary<uint, AttributeValue>(); //!< Attributes.
-        public Dictionary<int, int> mExperience=new Dictionary<int, int>(); //!< Skill Experience.
-        public Dictionary<int, int> mStatusEffects; //!< Status Effects
-        public Dictionary<int, int> mKillCount; //!< Kill Count
-        public Dictionary<int, Special>  mSpecials;
-        ushort mMapId;    //!< Map the being is on.
-        byte mGender;    //!< Gender of the being.
-        byte mHairStyle; //!< Hair style of the being.
-        byte mHairColor; //!< Hair color of the being.
-        short mLevel;             //!< Level of the being.
-        short mCharacterPoints;   //!< Unused character points.
-        short mCorrectionPoints;  //!< Unused correction points.
-        byte mAccountLevel; //!< Level of the associated account.
 
         //std::vector<std::string> mGuilds;        //!< All the guilds the player
         //!< belongs to.
@@ -72,16 +60,6 @@ namespace ISL.Server.Account
         // Set as a friend, but still a lot of redundant accessors. FIXME.
         //template< class T >
         //friend void serializeCharacterData(const T &data, MessageOut &msg);
-
-        public int getStatusEffectSize()
-        {
-            return mStatusEffects.Count;
-        }
-
-        public int getKillCountSize()
-        {
-            return mKillCount.Count;
-        }
 
         public Character(string name, int id=-1)
         {
@@ -95,15 +73,7 @@ namespace ISL.Server.Account
         {
             mAccount=acc;
             mAccountID=acc.getID();
-            mAccountLevel=(byte)acc.getLevel();
-        }
-
-        /**
-		* Gets the Id of the map that the character is on.
-		*/
-        public int getMapId()
-        {
-            return mMapId;
+            characterData.mAccountLevel=(byte)acc.getLevel();
         }
 
         /**
@@ -153,168 +123,11 @@ namespace ISL.Server.Account
             return mCharacterSlot;
         }
 
-        /** Gets the account level of the user. */
-        public int getAccountLevel()
-        {
-            return mAccountLevel;
-        }
-
-        /**
-	   * Gets the gender of the character (male / female).
-	   */
-        public int getGender()
-        {
-            return mGender;
-        }
-
-        public void setGender(int gender)
-        {
-            mGender=(byte)gender;
-        }
-
-        /**
- * Gets the hairstyle of the character.
- */
-        public int getHairStyle()
-        {
-            return mHairStyle;
-        }
-
-        public void setHairStyle(int style)
-        {
-            mHairStyle=(byte)style;
-        }
-
-        /**
- * Gets the haircolor of the character.
- */
-        public int getHairColor()
-        {
-            return mHairColor;
-        }
-        public void setHairColor(int color)
-        {
-            mHairColor=(byte)color;
-        }
-
-        /**
- * Gets the level of the character.
- */
-        public int getLevel()
-        {
-            return mLevel;
-        }
-        public void setLevel(int level)
-        {
-            mLevel=(byte)level;
-        }
-
-        public int getCharacterPoints()
-        {
-            return mCharacterPoints;
-        }
-
-        public int getCorrectionPoints()
-        {
-            return mCorrectionPoints;
-        }
-
-        public int getSkillSize()
-        {
-            return mExperience.Count;
-        }
-
-        public void setPosition(Point p)
-        {
-            mPos=p;
-        }
-
-        /**
-         * Gets a reference on the possessions.
-         */
-        public Possessions getPossessions()
-        {
-            return mPossessions;
-        }
-
-        public void setCharacterPoints(int points)
-        {
-            mCharacterPoints=(short)points;
-        }
-
-        
-        public void setCorrectionPoints(int points)
-        {
-            mCorrectionPoints=(short)points;
-        }
-
-        public void setMapId(int mapId)
-        {
-            mMapId=(ushort)mapId;
-        }
-
         public void setCharacterSlot(uint slot)
         {
             mCharacterSlot=slot;
         }
 
-        /**
-          * Sets the account level of the user.
-          * @param force ensure the level is not modified by a game server.
-          */
-        public void setAccountLevel(int l, bool force = false)
-        {
-            if(force)
-                mAccountLevel=(byte)l;
-        }
 
-        /** Sets the value of a base attribute of the character. */
-        public void setAttribute(uint id, double value)
-        {
-            mAttributes[id].@base=value;
-        }
-        
-        public void setModAttribute(uint id, double value)
-        {
-            mAttributes[id].modified=value;
-        }
-
-        public void setExperience(int skill, int value)
-        {
-            mExperience[skill]=value;
-        }
-
-        /**
-         * Get / Set a status effects
-         */
-        public void applyStatusEffect(int id, int time)
-        {
-            mStatusEffects[id]=time;
-        }
-
-        public void setKillCount(int monsterId, int kills)
-        {
-            mKillCount[monsterId]=kills;
-        }
-
-        public void giveSpecial(int id, int currentMana)
-        {
-            //mSpecials[id] = SpecialValue(currentMana);
-            Special spec=new Special();
-            spec.currentMana=currentMana;
-            mSpecials[id]=spec;
-            
-            //TODO Gegen Originalimplementation checken
-
-//            if (mSpecials.find(id) == mSpecials.end())
-//            {
-//                mSpecials[id] = SpecialValue(currentMana);
-//            }
-        }
-
-        public Point getPosition()
-        {
-            return mPos;
-        }
     }
 }

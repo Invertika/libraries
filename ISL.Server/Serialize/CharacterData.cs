@@ -36,22 +36,214 @@ using ISL.Server.Common;
 
 namespace ISL.Server.Serialize
 {
-    public static class CharacterData
+    public class CharacterData
     {
-        public static void serializeCharacterData(Character data, MessageOut msg)
+        public byte mAccountLevel; //!< Level of the associated account.
+        byte mGender;    //!< Gender of the being.
+        byte mHairStyle; //!< Hair style of the being.
+        byte mHairColor; //!< Hair color of the being.
+        short mLevel;             //!< Level of the being.
+        short mCharacterPoints;   //!< Unused character points.
+        short mCorrectionPoints;  //!< Unused correction points.
+        public Dictionary<uint, AttributeValue> mAttributes=new Dictionary<uint, AttributeValue>(); //!< Attributes.
+        public Dictionary<int, int> mExperience=new Dictionary<int, int>(); //!< Skill Experience.
+        public Dictionary<int, int> mStatusEffects; //!< Status Effects
+        ushort mMapId;    //!< Map the being is on.
+        Point mPos;               //!< Position the being is at.
+        public Dictionary<int, int> mKillCount; //!< Kill Count
+        public Dictionary<int, Special>  mSpecials;
+        Possessions mPossessions=new Possessions(); //!< All the possesions of the character.
+
+        /** Gets the account level of the user. */
+        public int getAccountLevel()
+        {
+            return mAccountLevel;
+        }
+
+        /**
+       * Gets the gender of the character (male / female).
+       */
+        public int getGender()
+        {
+            return mGender;
+        }
+        
+        public void setGender(int gender)
+        {
+            mGender=(byte)gender;
+        }
+
+        /**
+ * Gets the hairstyle of the character.
+ */
+        public int getHairStyle()
+        {
+            return mHairStyle;
+        }
+        
+        public void setHairStyle(int style)
+        {
+            mHairStyle=(byte)style;
+        }
+
+        /**
+ * Gets the haircolor of the character.
+ */
+        public int getHairColor()
+        {
+            return mHairColor;
+        }
+        public void setHairColor(int color)
+        {
+            mHairColor=(byte)color;
+        }
+
+        /**
+ * Gets the level of the character.
+ */
+        public int getLevel()
+        {
+            return mLevel;
+        }
+        public void setLevel(int level)
+        {
+            mLevel=(byte)level;
+        }
+
+        public int getCharacterPoints()
+        {
+            return mCharacterPoints;
+        }
+
+        public int getCorrectionPoints()
+        {
+            return mCorrectionPoints;
+        }
+
+        public int getSkillSize()
+        {
+            return mExperience.Count;
+        }
+
+        public int getStatusEffectSize()
+        {
+            return mStatusEffects.Count;
+        }
+
+        /**
+        * Gets the Id of the map that the character is on.
+        */
+        public int getMapId()
+        {
+            return mMapId;
+        }
+        
+        public Point getPosition()
+        {
+            return mPos;
+        }
+
+        public void setPosition(Point p)
+        {
+            mPos=p;
+        }
+        
+        public int getKillCountSize()
+        {
+            return mKillCount.Count;
+        }
+
+        /**
+         * Gets a reference on the possessions.
+         */
+        public Possessions getPossessions()
+        {
+            return mPossessions;
+        }
+
+        public void setCharacterPoints(int points)
+        {
+            mCharacterPoints=(short)points;
+        }
+        
+        public void setCorrectionPoints(int points)
+        {
+            mCorrectionPoints=(short)points;
+        }
+        
+        public void setMapId(int mapId)
+        {
+            mMapId=(ushort)mapId;
+        }
+
+        /**
+          * Sets the account level of the user.
+          * @param force ensure the level is not modified by a game server.
+          */
+        public void setAccountLevel(int l, bool force = false)
+        {
+            if(force)
+                mAccountLevel=(byte)l;
+        }
+        
+        /** Sets the value of a base attribute of the character. */
+        public void setAttribute(uint id, double value)
+        {
+            mAttributes[id].@base=value;
+        }
+        
+        public void setModAttribute(uint id, double value)
+        {
+            mAttributes[id].modified=value;
+        }
+        
+        public void setExperience(int skill, int value)
+        {
+            mExperience[skill]=value;
+        }
+        
+        /**
+         * Get / Set a status effects
+         */
+        public void applyStatusEffect(int id, int time)
+        {
+            mStatusEffects[id]=time;
+        }
+        
+        public void setKillCount(int monsterId, int kills)
+        {
+            mKillCount[monsterId]=kills;
+        }
+
+        public void giveSpecial(int id, int currentMana)
+        {
+            //mSpecials[id] = SpecialValue(currentMana);
+            Special spec=new Special();
+            spec.currentMana=currentMana;
+            mSpecials[id]=spec;
+            
+            //TODO Gegen Originalimplementation checken
+            
+            //            if (mSpecials.find(id) == mSpecials.end())
+            //            {
+            //                mSpecials[id] = SpecialValue(currentMana);
+            //            }
+        }
+
+        public void serializeCharacterData(MessageOut msg)
         {
             // general character properties
-            msg.writeInt8(data.getAccountLevel());
-            msg.writeInt8(data.getGender());
-            msg.writeInt8(data.getHairStyle());
-            msg.writeInt8(data.getHairColor());
-            msg.writeInt16(data.getLevel());
-            msg.writeInt16(data.getCharacterPoints());
-            msg.writeInt16(data.getCorrectionPoints());
+            msg.writeInt8(getAccountLevel());
+            msg.writeInt8(getGender());
+            msg.writeInt8(getHairStyle());
+            msg.writeInt8(getHairColor());
+            msg.writeInt16(getLevel());
+            msg.writeInt16(getCharacterPoints());
+            msg.writeInt16(getCorrectionPoints());
 
-            msg.writeInt16(data.mAttributes.Count);
+            msg.writeInt16(mAttributes.Count);
 
-            foreach(KeyValuePair<uint, AttributeValue> pair in data.mAttributes)
+            foreach(KeyValuePair<uint, AttributeValue> pair in mAttributes)
             {
                 msg.writeInt16((Int16)pair.Key);
 
@@ -59,50 +251,49 @@ namespace ISL.Server.Serialize
                 msg.writeDouble(pair.Value.modified);
             }
 
-
             // character skills
-            msg.writeInt16(data.getSkillSize());
+            msg.writeInt16(getSkillSize());
 
-            foreach(KeyValuePair<int, int> pair in data.mExperience)
+            foreach(KeyValuePair<int, int> pair in mExperience)
             {
                 msg.writeInt16(pair.Key);
                 msg.writeInt32(pair.Value);
             }
 
             // status effects currently affecting the character
-            msg.writeInt16(data.getStatusEffectSize());
+            msg.writeInt16(getStatusEffectSize());
 
-            foreach(KeyValuePair<int, int> pair in data.mStatusEffects)
+            foreach(KeyValuePair<int, int> pair in mStatusEffects)
             {
                 msg.writeInt16(pair.Key);
                 msg.writeInt16(pair.Value);
             }
 
             // location
-            msg.writeInt16(data.getMapId());
-            Point pos=data.getPosition();
+            msg.writeInt16(getMapId());
+            Point pos=getPosition();
             msg.writeInt16(pos.x);
             msg.writeInt16(pos.y);
 
             // kill count
-            msg.writeInt16(data.getKillCountSize());
+            msg.writeInt16(getKillCountSize());
 
-            foreach(KeyValuePair<int, int> pair in data.mKillCount)
+            foreach(KeyValuePair<int, int> pair in mKillCount)
             {
                 msg.writeInt16(pair.Key);
                 msg.writeInt32(pair.Value);
             }
 
             // character specials
-            msg.writeInt16(data.mSpecials.Count);
+            msg.writeInt16(mSpecials.Count);
 
-            foreach(KeyValuePair<int, Special> pair in data.mSpecials)
+            foreach(KeyValuePair<int, Special> pair in mSpecials)
             {
                 msg.writeInt32(pair.Key);
             }
 
             // inventory - must be last because size isn't transmitted
-            Possessions poss=data.getPossessions();
+            Possessions poss=getPossessions();
             Dictionary< uint, EquipmentItem > equipData=poss.getEquipment();
             msg.writeInt16(equipData.Count); // number of equipment
 
