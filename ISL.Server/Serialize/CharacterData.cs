@@ -47,7 +47,7 @@ namespace ISL.Server.Serialize
         short mCorrectionPoints;  //!< Unused correction points.
         public Dictionary<uint, AttributeValue> mAttributes=new Dictionary<uint, AttributeValue>(); //!< Attributes.
         public Dictionary<int, int> mExperience=new Dictionary<int, int>(); //!< Skill Experience.
-        public Dictionary<int, int> mStatusEffects; //!< Status Effects
+        public Dictionary<int, int> mStatusEffects=new Dictionary<int, int>(); //!< Status Effects
         ushort mMapId;    //!< Map the being is on.
         Point mPos;               //!< Position the being is at.
         public Dictionary<int, int> mKillCount; //!< Kill Count

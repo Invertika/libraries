@@ -74,7 +74,6 @@ namespace ISL.Server.Account
         {
             mAccount=acc;
             mAccountID=acc.getID();
-            characterData=new CharacterData();
             characterData.mAccountLevel=(byte)acc.getLevel();
         }
 
