@@ -215,6 +215,11 @@ namespace ISL.Server.Serialize
             mKillCount[monsterId]=kills;
         }
 
+        public void giveSpecial(int id)
+        {
+            mSpecials.Add(id, null);
+        }
+
         public void giveSpecial(int id, int currentMana)
         {
             //mSpecials[id] = SpecialValue(currentMana);
@@ -228,6 +233,16 @@ namespace ISL.Server.Serialize
             //            {
             //                mSpecials[id] = SpecialValue(currentMana);
             //            }
+        }
+
+        void clearSpecials()
+        {
+            //for (std::map<int, Special*>::iterator i = mSpecials.begin();
+            //     i != mSpecials.end(); i++)
+            //{
+            //    delete i.second;
+            //}
+            mSpecials.Clear();
         }
 
         public void serializeCharacterData(MessageOut msg)
@@ -314,100 +329,99 @@ namespace ISL.Server.Serialize
             }
         }
 
-        public static void deserializeCharacterData(Character data, MessageIn msg)
+        public void deserializeCharacterData(MessageIn msg)
         {
-            //// general character properties
-            //data.setAccountLevel(msg.readInt8());
-            //data.setGender(ManaServ.getGender(msg.readInt8()));
-            //data.setHairStyle(msg.readInt8());
-            //data.setHairColor(msg.readInt8());
-            //data.setLevel(msg.readInt16());
-            //data.setCharacterPoints(msg.readInt16());
-            //data.setCorrectionPoints(msg.readInt16());
+            // general character properties
+            setAccountLevel(msg.readInt8());
+            setGender(msg.readInt8());
+            setHairStyle(msg.readInt8());
+            setHairColor(msg.readInt8());
+            setLevel(msg.readInt16());
+            setCharacterPoints(msg.readInt16());
+            setCorrectionPoints(msg.readInt16());
 
-            //// character attributes
-            //uint attrSize = (uint)msg.readInt16();
-            //for (uint i = 0; i < attrSize; ++i)
-            //{
-            //    uint id = msg.readInt16();
-            //    double @base = msg.readDouble(),
-            //           mod  = msg.readDouble();
-            //    data.setAttribute(id, @base);
-            //    data.setModAttribute(id, mod);
-            //}
+            // character attributes
+            uint attrSize=(uint)msg.readInt16();
+            for(uint i = 0;i < attrSize;++i)
+            {
+                uint id=(uint)msg.readInt16();
+                double @base=msg.readDouble(),
+                mod=msg.readDouble();
+                setAttribute(id,  @base);
+                setModAttribute(id, mod);
+            }
 
-            //// character skills
-            //int skillSize = msg.readInt16();
+            // character skills
+            int skillSize=msg.readInt16();
 
-            //for (int i = 0; i < skillSize; ++i)
-            //{
-            //    int skill = msg.readInt16();
-            //    int level = msg.readInt32();
-            //    data.setExperience(skill,level);
-            //}
+            for(int i = 0;i < skillSize;++i)
+            {
+                int skill=msg.readInt16();
+                int level=msg.readInt32();
+                setExperience(skill, level);
+            }
 
-            //// status effects currently affecting the character
-            //int statusSize = msg.readInt16();
+            // status effects currently affecting the character
+            int statusSize=msg.readInt16();
 
-            //for (int i = 0; i < statusSize; i++)
-            //{
-            //    int status = msg.readInt16();
-            //    int time = msg.readInt16();
-            //    data.applyStatusEffect(status, time);
-            //}
+            for(int i = 0;i < statusSize;i++)
+            {
+                int status=msg.readInt16();
+                int time=msg.readInt16();
+                applyStatusEffect(status, time);
+            }
 
-            //// location
-            //data.setMapId(msg.readInt16());
+            // location
+            setMapId(msg.readInt16());
 
-            //Point temporaryPoint;
-            //temporaryPoint.x = msg.readInt16();
-            //temporaryPoint.y = msg.readInt16();
-            //data.setPosition(temporaryPoint);
+            Point temporaryPoint=new Point();
+            temporaryPoint.x=msg.readInt16();
+            temporaryPoint.y=msg.readInt16();
+            setPosition(temporaryPoint);
 
-            //// kill count
-            //int killSize = msg.readInt16();
-            //for (int i = 0; i < killSize; i++)
-            //{
-            //    int monsterId = msg.readInt16();
-            //    int kills = msg.readInt32();
-            //    data.setKillCount(monsterId, kills);
-            //}
+            // kill count
+            int killSize=msg.readInt16();
+            for(int i = 0;i < killSize;i++)
+            {
+                int monsterId=msg.readInt16();
+                int kills=msg.readInt32();
+                setKillCount(monsterId, kills);
+            }
 
-            //// character specials
-            //int specialSize = msg.readInt16();
-            //data.clearSpecials();
-            //for (int i = 0; i < specialSize; i++)
-            //{
-            //    data.giveSpecial(msg.readInt32());
-            //}
+            // character specials
+            int specialSize=msg.readInt16();
+            clearSpecials();
+            for(int i = 0;i < specialSize;i++)
+            {
+                giveSpecial(msg.readInt32());
+            }
 
+            Possessions poss=getPossessions();
+            Dictionary< uint, EquipmentItem > equipData=new Dictionary<uint, EquipmentItem>();
+            int equipSlotsSize=msg.readInt16();
+            uint eqSlot;
+            EquipmentItem equipItem=new EquipmentItem();
+            for(int j = 0;j < equipSlotsSize;++j)
+            {
+                eqSlot=(uint)msg.readInt16();
+                equipItem.itemId=(uint)msg.readInt16();
+                equipItem.itemInstance=(uint)msg.readInt16();
+                equipData.Add(eqSlot, equipItem);
+            }
+            poss.setEquipment(equipData);
 
-            //Possessions &poss = data.getPossessions();
-            //EquipData equipData;
-            //int equipSlotsSize = msg.readInt16();
-            //uint eqSlot;
-            //EquipmentItem equipItem;
-            //for (int j = 0; j < equipSlotsSize; ++j)
-            //{
-            //    eqSlot  = msg.readInt16();
-            //    equipItem.itemId = msg.readInt16();
-            //    equipItem.itemInstance = msg.readInt16();
-            //    equipData.insert(equipData.end(),
-            //                           std::make_pair(eqSlot, equipItem));
-            //}
-            //poss.setEquipment(equipData);
+            // Loads inventory - must be last because size isn't transmitted
+            Dictionary<uint, InventoryItem > inventoryData=new Dictionary<uint, InventoryItem>();
+            while(msg.getUnreadLength()>0)
+            {
+                InventoryItem i=new InventoryItem();
+                int slotId=msg.readInt16();
+                i.itemId=(uint)msg.readInt16();
+                i.amount=(uint)msg.readInt16();
+                inventoryData.Add((uint)slotId, i);
+            }
 
-            //// Loads inventory - must be last because size isn't transmitted
-            //Dictionary<uint, InventoryItem > inventoryData;
-            //while (msg.getUnreadLength())
-            //{
-            //    InventoryItem i;
-            //    int slotId = msg.readInt16();
-            //    i.itemId   = msg.readInt16();
-            //    i.amount   = msg.readInt16();
-            //    inventoryData.insert(inventoryData.end(), std::make_pair(slotId, i));
-            //}
-            //poss.setInventory(inventoryData);
+            poss.setInventory(inventoryData);
         }
     }
 }
