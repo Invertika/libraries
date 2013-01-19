@@ -67,12 +67,14 @@ namespace ISL.Server.Account
             mDatabaseID=id;
             mAccountID=-1;
             mAccount=null;
+            characterData=new CharacterData();
         }
 
         public void setAccount(Account acc)
         {
             mAccount=acc;
             mAccountID=acc.getID();
+            characterData=new CharacterData();
             characterData.mAccountLevel=(byte)acc.getLevel();
         }
 
