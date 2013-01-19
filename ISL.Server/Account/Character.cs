@@ -53,9 +53,9 @@ namespace ISL.Server.Account
         Point mPos;               //!< Position the being is at.
         public Dictionary<uint, AttributeValue> mAttributes=new Dictionary<uint, AttributeValue>(); //!< Attributes.
         public Dictionary<int, int> mExperience=new Dictionary<int, int>(); //!< Skill Experience.
-        Dictionary<int, int> mStatusEffects; //!< Status Effects
-        Dictionary<int, int> mKillCount; //!< Kill Count
-        Dictionary<int, Special>  mSpecials;
+        public Dictionary<int, int> mStatusEffects; //!< Status Effects
+        public Dictionary<int, int> mKillCount; //!< Kill Count
+        public Dictionary<int, Special>  mSpecials;
         ushort mMapId;    //!< Map the being is on.
         byte mGender;    //!< Gender of the being.
         byte mHairStyle; //!< Hair style of the being.
@@ -72,6 +72,16 @@ namespace ISL.Server.Account
         // Set as a friend, but still a lot of redundant accessors. FIXME.
         //template< class T >
         //friend void serializeCharacterData(const T &data, MessageOut &msg);
+
+        public int getStatusEffectSize()
+        {
+            return mStatusEffects.Count;
+        }
+
+        public int getKillCountSize()
+        {
+            return mKillCount.Count;
+        }
 
         public Character(string name, int id=-1)
         {

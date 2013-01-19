@@ -14,12 +14,12 @@ namespace ISL.Server.Common
         //friend class Inventory;
 //public:
 
-        Dictionary< uint, EquipmentItem > getEquipment()
+        public Dictionary< uint, EquipmentItem > getEquipment()
         {
             return equipSlots;
         }
 
-        Dictionary< uint, InventoryItem > getInventory()
+        public Dictionary< uint, InventoryItem > getInventory()
         {
             return inventory;
         }
@@ -31,9 +31,9 @@ namespace ISL.Server.Common
         { 
             //equipSlots.swap(equipData); }
 
-            foreach (KeyValuePair<uint, EquipmentItem> pair in equipData)
+            foreach(KeyValuePair<uint, EquipmentItem> pair in equipData)
             {
-                equipSlots[pair.Key] = pair.Value;
+                equipSlots[pair.Key]=pair.Value;
             }
         }
 
@@ -41,9 +41,9 @@ namespace ISL.Server.Common
         { 
             //inventory.swap(inventoryData); }
 
-            foreach (KeyValuePair<uint, InventoryItem> pair in inventoryData)
+            foreach(KeyValuePair<uint, InventoryItem> pair in inventoryData)
             {
-                inventory[pair.Key] = pair.Value;
+                inventory[pair.Key]=pair.Value;
             }
         }
     }
