@@ -11,9 +11,6 @@ namespace ISL.Server.Common
         Dictionary< uint, InventoryItem > inventory=new Dictionary<uint, InventoryItem>();
         Dictionary< uint, EquipmentItem > equipSlots=new Dictionary<uint, EquipmentItem>();
 
-        //friend class Inventory;
-//public:
-
         public Dictionary< uint, EquipmentItem > getEquipment()
         {
             return equipSlots;
