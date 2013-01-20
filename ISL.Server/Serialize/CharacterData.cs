@@ -50,8 +50,8 @@ namespace ISL.Server.Serialize
         public Dictionary<int, int> mStatusEffects=new Dictionary<int, int>(); //!< Status Effects
         ushort mMapId;    //!< Map the being is on.
         Point mPos;               //!< Position the being is at.
-        public Dictionary<int, int> mKillCount; //!< Kill Count
-        public Dictionary<int, Special>  mSpecials;
+        public Dictionary<int, int> mKillCount=new Dictionary<int, int>(); //!< Kill Count
+        public Dictionary<int, Special>  mSpecials=new Dictionary<int, Special>();
         Possessions mPossessions=new Possessions(); //!< All the possesions of the character.
 
         /** Gets the account level of the user. */

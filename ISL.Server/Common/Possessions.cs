@@ -8,8 +8,8 @@ namespace ISL.Server.Common
  */
     public class Possessions
     {
-        Dictionary< uint, InventoryItem > inventory;
-        Dictionary< uint, EquipmentItem > equipSlots;
+        Dictionary< uint, InventoryItem > inventory=new Dictionary<uint, InventoryItem>();
+        Dictionary< uint, EquipmentItem > equipSlots=new Dictionary<uint, EquipmentItem>();
 
         //friend class Inventory;
 //public:
