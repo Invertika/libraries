@@ -33,14 +33,14 @@ namespace ISL.Server.Account
 {
     public class AttributeValue
     {
-        AttributeValue()
+        public AttributeValue()
         {
         }
 
-        AttributeValue(double value)
+        public AttributeValue(double value)
         {
-            	@base = value;
-            modified = value;
+            	@base=value;
+            modified=value;
         }
 
         public double @base;     /**< Base value of the attribute. */
