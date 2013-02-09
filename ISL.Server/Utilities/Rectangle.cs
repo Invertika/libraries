@@ -37,24 +37,19 @@ namespace ISL.Server.Utilities
 	 */
     public class Rectangle
     {
-        //public:
-        public   int x; /**< x coordinate */
-        public   int y; /**< y coordinate */
-        public   int w; /**< width */
-        public   int h; /**< height */
+        public int x; /**< x coordinate */
+        public int y; /**< y coordinate */
+        public int w; /**< width */
+        public int h; /**< height */
 
         public bool contains(Point p)
         {
-            return (p.x>=x&&p.x<x+w&&
-                p.y>=y&&p.y<y+h);
+            return (p.x>=x&&p.x<x+w&&p.y>=y&&p.y<y+h);
         }
 
         public bool intersects(Rectangle r)
         {
-            return x<(r.x+r.w)&&
-                y<(r.y+r.h)&&
-                x+w>r.x&&
-                y+h>r.y;
+            return x<(r.x+r.w)&&y<(r.y+r.h)&&x+w>r.x&&y+h>r.y;
         }
     }
 }
