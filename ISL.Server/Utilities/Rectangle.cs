@@ -43,18 +43,18 @@ namespace ISL.Server.Utilities
         public   int w; /**< width */
         public   int h; /**< height */
 
-        //    bool contains(const Point &p) const
-        //    {
-        //        return (p.x >= x && p.x < x + w &&
-        //                p.y >= y && p.y < y + h);
-        //    }
+        public bool contains(Point p)
+        {
+            return (p.x>=x&&p.x<x+w&&
+                p.y>=y&&p.y<y+h);
+        }
 
-        //    bool intersects(const Rectangle &r) const
-        //    {
-        //        return x < (r.x + r.w) &&
-        //               y < (r.y + r.h) &&
-        //               x + w > r.x &&
-        //               y + h > r.y;
-        //    }
+        public bool intersects(Rectangle r)
+        {
+            return x<(r.x+r.w)&&
+                y<(r.y+r.h)&&
+                x+w>r.x&&
+                y+h>r.y;
+        }
     }
 }
