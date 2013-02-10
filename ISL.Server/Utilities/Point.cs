@@ -30,43 +30,42 @@ using System.Text;
 
 namespace ISL.Server.Utilities
 {
-	/**
+    /**
 	 * A point in positive space. Usually represents pixel coordinates on a map.
 	 */
-	public class Point
-	{
-		public Point()
-		{
-			x=0;
-			y=0;
-		}
+    public class Point
+    {
+        public Point()
+        {
+            x=0;
+            y=0;
+        }
 
-		public Point(int X, int Y)
-		{
-			x=X;
-			y=Y;
-		}
+        public Point(int X, int Y)
+        {
+            x=X;
+            y=Y;
+        }
 
-		public int x; /**< x coordinate */
-		public int y; /**< y coordinate */
+        public int x; /**< x coordinate */
+        public int y; /**< y coordinate */
 
-		///**
-		// * Check whether the given point is within range of this point.
-		// */
-		//bool inRangeOf(const Point &p, int radius) const
-		//{
-		//    return std::abs(x - p.x) <= radius &&
-		//           std::abs(y - p.y) <= radius;
-		//}
+        /**
+		 * Check whether the given point is within range of this point.
+		 */
+        public bool inRangeOf(Point p, int radius)
+        {
+            return Math.Abs(x-p.x)<=radius&&Math.Abs(y-p.y)<=radius;
+        }
 
-		//bool operator== (const Point &other) const
-		//{
-		//    return (x == other.x && y == other.y);
-		//}
+        //bool operator== (const Point &other) const
+        //{
+        //    return (x == other.x && y == other.y);
+        //}
 
-		//bool operator!= (const Point &other) const
-		//{
-		//    return (x != other.x || y != other.y);
-		//}
-	}
+        //bool operator!= (const Point &other) const
+        //{
+        //    return (x != other.x || y != other.y);
+        //}
+    }
 }
