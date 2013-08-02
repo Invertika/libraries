@@ -22,12 +22,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using CSCL.Graphic;
 using CSCL.FileFormats.TMX;
 using System.Drawing;
 using CSCL.Games.Manasource;
 using CSCL;
 using ISL.Classes;
+using CSCL.Imaging;
 
 namespace ISL
 {
@@ -40,7 +40,7 @@ namespace ISL
 		/// <param name="filename"></param>
 		/// <param name="img"></param>
 		/// <param name="map"></param>
-		public static void SaveFeatureMapMonsterSpreading(string clientdata, string filename, gtImage img, TMX map)
+		public static void SaveFeatureMapMonsterSpreading(string clientdata, string filename, Graphic img, TMX map)
 		{
 			//Farben
 			Color green=Color.FromArgb(128, 0, 255, 0);
@@ -49,8 +49,8 @@ namespace ISL
 			Color blue=Color.FromArgb(128, 0, 0, 255);
 
 			//Images
-			gtImage tmpImage=img.GetImage();
-			gtImage tmpDraw=new gtImage(tmpImage.Width, tmpImage.Height, tmpImage.ChannelFormat);
+			Graphic tmpImage=img.GetImage();
+			Graphic tmpDraw=new Graphic(tmpImage.Width, tmpImage.Height, tmpImage.ChannelFormat);
 
 			//Ermittlung der Durchschnittswerte
 			string fnMonsterXml=clientdata+"monsters.xml";
@@ -145,7 +145,7 @@ namespace ISL
 			FileSystem.CreateDirectory(pathOutput, true);
 
 			//Datei laden
-			gtImage tmp=gtImage.FromFile(fnBitmap);
+			Graphic tmp=Graphic.FromFile(fnBitmap);
 
 			//Vars
 			uint kSize=100;
@@ -172,7 +172,7 @@ namespace ISL
 
 				while(x<tmp.Width)
 				{
-					gtImage sub=tmp.GetSubImage(x, y, kSize, kSize);
+					Graphic sub=tmp.GetSubImage(x, y, kSize, kSize);
 					Color col=sub.GetMedianColor();
 
 					#region Farbquantisierung
