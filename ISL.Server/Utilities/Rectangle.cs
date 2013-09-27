@@ -42,6 +42,14 @@ namespace ISL.Server.Utilities
         public int w; /**< width */
         public int h; /**< height */
 
+		public Rectangle(int ix, int iy, int iw, int ih)
+		{
+			x=ix;
+			y=iy;
+			w=iw;
+			h = ih;
+		}
+
         public bool contains(Point p)
         {
             return (p.x>=x&&p.x<x+w&&p.y>=y&&p.y<y+h);
