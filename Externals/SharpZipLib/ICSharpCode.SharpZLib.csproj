@@ -3,7 +3,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}</ProjectGuid>
     <RootNamespace>ICSharpCode.SharpZipLib</RootNamespace>
     <AssemblyName>ICSharpCode.SharpZipLib</AssemblyName>
@@ -21,7 +20,6 @@
     </UpgradeBackupLocation>
     <OldToolsVersion>3.5</OldToolsVersion>
     <IsWebBootstrapper>true</IsWebBootstrapper>
-    <ProductVersion>9.0.21022</ProductVersion>
     <PublishUrl>http://localhost/ICSharpCode.SharpZipLib/</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
@@ -71,9 +69,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
+    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\WindowsPathUtils.cs" />
